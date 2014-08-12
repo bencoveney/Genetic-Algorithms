@@ -21,124 +21,183 @@
  *  If you wish to donate, please have a look at my Amazon Wishlist:
  *  http://www.amazon.de/wishlist/1GWSB78PYVFBQ
  */
+
 using System;
 using System.Collections;
 
 namespace GeneticAlgorithms
 {
-    /* generic class Chromosome<Gene>
-     *  implementiert: IChromosome, IComparable<Chromosome<Gene>>
-     *  Gene implementiert: IGene, einen Konstruktor
-     * 
-     * Chromosome<Gene> ist eine allgemeine (generische) Chromosomklasse. Sieht implementiert das
-     * Chromosome-Interface und das Sortier-Interface IComparable.
-     * Die Klasse beherbergt einen Strang von Genen und erlaubt es mit diesen durch Methoden zu 
-     * interagieren.
-     */
+    /// <summary>
+    /// A Generic instance of a chromosome; Contains a strand of genes and the methods through which to act on them
+    /// </summary>
+    /// <typeparam name="Gene">The gene's Type.</typeparam>
     public class Chromosome<Gene>: IChromosome, IComparable<Chromosome<Gene>> where Gene: IGene, new()
     {
-        // Liste von Genen; es wird davon ausgegangen, dass hier nur Objekte vom Typ Gene abgelegt werden.
-        protected ArrayList genes;
-        // Die Fitness des Chromosoms wird hier gespeichert
-        private float fitness;
+        /// <summary>
+        /// A list of genes. It is assumed genes are stored by type Gene
+        /// TODO convert from arraylist to typed list
+        /// </summary>
+        protected ArrayList _genes;
 
-        // Zugriffs Property auf die Fitness des Chromosoms
+        /// <summary>
+        /// The fitness of this chromosome
+        /// </summary>
+        private float _fitness;
+
+
+        /// <summary>
+        /// Accessor for _fitness
+        /// </summary>
+        /// <value>
+        /// The fitness.
+        /// </value>
         public float Fitness
         {
             get
             {
-                return this.fitness;
+                return this._fitness;
             }
         }
 
-        // Dupliziert ein Gen an der durch index bestimmten Position
+        /// <summary>
+        /// Duplicates a gene from the specified index
+        /// </summary>
+        /// <param name="index">The index of the gene to duplicate</param>
         public void DuplicateGene(int index)
         {
             Gene gene = new Gene();
             gene = (Gene) this[index].Clone();
-            this.genes.Insert(index, gene);
+            this._genes.Insert(index, gene);
         }
 
-        // Entfernt ein Gen an der durch index bestimmten Position
+        /// <summary>
+        /// Removes a gene from the specified index
+        /// </summary>
+        /// <param name="index">The index of the gene to remove</param>
         public void DropGene(int index)
         {
-            this.genes.RemoveAt(index);
+            this._genes.RemoveAt(index);
         }
 
-        // Errechnet mithilfe eines IFitnessFunctionProvider Interface die Fitness des Chromosoms
+        /// <summary>
+        /// Calculates the chromosome's fitness
+        /// </summary>
+        /// <param name="provider">The fitness function provider to use in the calculation</param>
         public void computeFitness(IFitnessFunctionProvider provider)
         {
-            this.fitness = provider.ComputeFitness(this.genes);
+            this._fitness = provider.ComputeFitness(this._genes);
         }
 
-        // Geschützter Konstruktor, der ein Chromosom aus einer ArrayList von Gegen erzeugt (für Rekombination erforderlich)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Chromosome{Gene}"/> class.
+        /// "Protected constructor that one chromosome from an ArrayList of object generated (for recombination required)"
+        /// </summary>
+        /// <param name="genes">The genes.</param>
+        /// <exception cref="System.ArrayTypeMismatchException"></exception>
         protected Chromosome(ArrayList genes)
         {
-            if (genes.Count > 0)
-                if (genes[genes.Count - 1].GetType() == typeof(Gene))
-                    this.genes = new ArrayList(genes);
-                else
-                    throw new ArrayTypeMismatchException();
-            else
-                this.genes = new ArrayList();
+            // If no genes were passed all we need to do is initialise the local variable 
+            if (genes.Count <= 0)
+            {
+                this._genes = new ArrayList();
+                return;
+            }
+
+            // Check the genes passed in are of the correct type
+            // TODO can be removed once the arraylist is typed
+            if (genes[genes.Count - 1].GetType() != typeof(Gene))
+                throw new ArrayTypeMismatchException();
+
+            // Assign the passed genes to the local variable
+            this._genes = new ArrayList(genes);
         }
 
-        // Konstruktor, der ein Chromosom mit geneCount zufällig initialisierten Genen erzeugt
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Chromosome{Gene}"/> class with randomly initialised genes.
+        /// </summary>
+        /// <param name="geneCount">The number of genes to create within the chromosome</param>
         public Chromosome(int geneCount)
         {
-            this.genes = new ArrayList(geneCount);
-            while (this.genes.Count < geneCount)
-                this.genes.Add(new Gene());
+            // Initialise the gene list
+            this._genes = new ArrayList(geneCount);
+
+            // Populate it with new genes
+            // TODO theres gotta be a better method than a while loop
+            while (this._genes.Count < geneCount)
+                this._genes.Add(new Gene());
         }
 
-        // Rekombiniert dieses Chromosom mit einem durch partner spezifizierten anderen Chromosom
-        // Das IRecombinatorProvider Interface recombinator stellt dafür die Methode zur Verfügung.
+        /// <summary>
+        /// Recombines this chromosome with a specified partner chromosome
+        /// </summary>
+        /// <param name="partner">The partner chromosome to combine with</param>
+        /// <param name="recombinator">The recombination provider.</param>
+        /// <returns>The chromosome resulting from the re-combination</returns>
         public Chromosome<Gene> Recombine(Chromosome<Gene> partner, IRecombinationProvider recombinator)
         {
-            return new Chromosome<Gene>(recombinator.Recombine(this.genes, partner.genes));
+            return new Chromosome<Gene>(recombinator.Recombine(this._genes, partner._genes));
         }
 
-        // Array-Zugriffs-Property für die Gen-Liste
+        /// <summary>
+        /// Gets or sets the <see cref="Gene"/> at the specified index.
+        /// </summary>
+        /// <value>
+        /// The <see cref="Gene"/>.
+        /// </value>
+        /// <param name="index">The index.</param>
+        /// <returns></returns>
         public Gene this[int index]
         {
             get
             {
-                return (Gene) genes[index];
+                return (Gene) _genes[index];
             }
             set
             {
-                genes[index] = value;
+                _genes[index] = value;
             }
         }
 
-        // Zugriffs-Property für die Chromosom-Länge
+        /// <summary>
+        /// Gets the length of the chromosome
+        /// </summary>
+        /// <value>
+        /// The gene count.
+        /// </value>
         public int GeneCount
         {
             get
             {
-                return this.genes.Count; 
+                return this._genes.Count; 
             }
         }
 
-        // Wandelt das Chromosom in eine menschen-lesbare Form um
+        /// <summary>
+        /// Returns a <see cref="System.String" /> that represents this instance.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="System.String" /> that represents this instance.
+        /// </returns>
         override public string ToString()
         {
             string resultString = "";
-            foreach (Gene gene in genes)
+            foreach (Gene gene in _genes)
             {
                 resultString += gene.ToString() + " ";
             }
             return resultString;
         }
 
-        #region IComparable<Chromosome<Gene>> Member
-
-        // Implementation des IComparable Interfaces zum sortieren von Chromosomen.
+        /// <summary>
+        /// Compares the current object with another object of the same type to facilitate sorting of chromosomes
+        /// </summary>
+        /// <param name="other">An object to compare with this object.</param>
+        /// <returns>
+        /// A value that indicates the relative order of the objects being compared. The return value has the following meanings: Value Meaning Less than zero This object is less than the <paramref name="other" /> parameter.Zero This object is equal to <paramref name="other" />. Greater than zero This object is greater than <paramref name="other" />.
+        /// </returns>
         public int CompareTo(Chromosome<Gene> other)
         {
-            return this.fitness.CompareTo(other.fitness);
+            return this._fitness.CompareTo(other._fitness);
         }
-
-        #endregion
     }
 }
