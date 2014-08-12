@@ -1,6 +1,7 @@
-
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30723.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Genetic Algorithms", "Genetic Algorithms\Genetic Algorithms.csproj", "{6E92618B-EE42-4427-8924-F5FA675B1735}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Genetic Algorithms Test", "Genetic Algorithms Test\Genetic Algorithms Test.csproj", "{1E5B7DF8-7895-4284-86FE-ACAD38FC5C98}"
