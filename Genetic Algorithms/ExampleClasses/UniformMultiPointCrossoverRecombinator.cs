@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace GeneticAlgorithms.Example_Classes
 {
@@ -10,14 +11,14 @@ namespace GeneticAlgorithms.Example_Classes
         Random random = new Random();
         #region IRecombinationProvider Member
 
-        public ArrayList Recombine(ArrayList maleGenes, ArrayList femaleGenes)
+        public List<Gene> Recombine<Gene>(List<Gene> maleGenes, List<Gene> femaleGenes) where Gene: IGene, new()
         {
-            ArrayList Child = maleGenes.Clone() as ArrayList;
+            List<Gene> Child = new List<Gene>(maleGenes);
 
             bool usingMale = true;
             for (int i = 0; i < maleGenes.Count; i++)
             {
-                Child[i] = usingMale ? ((IGene)maleGenes[i]).Clone() : Child[i] = ((IGene)femaleGenes[i]).Clone();
+                Child[i] = usingMale ? maleGenes[i] : Child[i] = femaleGenes[i];
                 if (i % GenesPerCrossover == 0) usingMale = !usingMale;
             }
 

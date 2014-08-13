@@ -24,6 +24,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace GeneticAlgorithms
 {
@@ -35,9 +36,8 @@ namespace GeneticAlgorithms
     {
         /// <summary>
         /// A list of genes. It is assumed genes are stored by type Gene
-        ///TODO convert from arraylist to typed list
         /// </summary>
-        protected ArrayList _genes;
+        protected List<Gene> _genes;
 
         /// <summary>
         /// The fitness of this chromosome
@@ -90,26 +90,24 @@ namespace GeneticAlgorithms
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Chromosome{Gene}"/> class.
-        /// "Protected constructor that one chromosome from an ArrayList of object generated (for recombination required)"
         /// </summary>
         /// <param name="genes">The genes.</param>
         /// <exception cref="System.ArrayTypeMismatchException"></exception>
-        protected Chromosome(ArrayList genes)
+        protected Chromosome(List<Gene> genes)
         {
             // If no genes were passed all we need to do is initialise the local variable 
             if (genes.Count <= 0)
             {
-                this._genes = new ArrayList();
+                this._genes = new List<Gene>();
                 return;
             }
 
             // Check the genes passed in are of the correct type
-            // TODO can be removed once the arraylist is typed
             if (genes[genes.Count - 1].GetType() != typeof(Gene))
                 throw new ArrayTypeMismatchException();
 
             // Assign the passed genes to the local variable
-            this._genes = new ArrayList(genes);
+            this._genes = new List<Gene>(genes);
         }
 
         /// <summary>
@@ -119,7 +117,7 @@ namespace GeneticAlgorithms
         public Chromosome(int geneCount)
         {
             // Initialise the gene list
-            this._genes = new ArrayList(geneCount);
+            this._genes = new List<Gene>(geneCount);
 
             // Populate it with new genes
             // TODO theres gotta be a better method than a while loop
@@ -135,7 +133,7 @@ namespace GeneticAlgorithms
         /// <returns>The chromosome resulting from the re-combination</returns>
         public Chromosome<Gene> Recombine(Chromosome<Gene> partner, IRecombinationProvider recombinator)
         {
-            return new Chromosome<Gene>(recombinator.Recombine(this._genes, partner._genes));
+            return new Chromosome<Gene>(recombinator.Recombine(_genes, partner._genes));
         }
 
         /// <summary>
@@ -169,6 +167,14 @@ namespace GeneticAlgorithms
             get
             {
                 return this._genes.Count; 
+            }
+        }
+
+        public List<Gene> Genes
+        {
+            get
+            {
+                return this._genes;
             }
         }
 

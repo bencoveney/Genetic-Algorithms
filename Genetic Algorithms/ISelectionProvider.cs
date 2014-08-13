@@ -22,11 +22,12 @@
  *  http://www.amazon.de/wishlist/1GWSB78PYVFBQ
  */
 using System.Collections;
+using System.Collections.Generic;
 
 namespace GeneticAlgorithms
 {
     public interface ISelectionProvider
     {
-        IChromosome select(ArrayList population, float totalFitness);
+        Chromosome Select<Chromosome>(List<Chromosome> population, float totalFitness) where Chromosome: IChromosome;
     }
 }

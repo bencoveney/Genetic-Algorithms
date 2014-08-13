@@ -22,6 +22,7 @@
  *  http://www.amazon.de/wishlist/1GWSB78PYVFBQ
  */
 
+using System.Collections.Generic;
 namespace GeneticAlgorithms
 {
     /* IChromosome
@@ -33,11 +34,11 @@ namespace GeneticAlgorithms
      */
     public interface IChromosome
     {
-        float Fitness
+        int GeneCount
         {
             get;
         }
         void DuplicateGene(int index);
         void DropGene(int index);
-    }//
+    }
 }

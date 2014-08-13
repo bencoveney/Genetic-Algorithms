@@ -23,12 +23,13 @@
  */
 using System;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace GeneticAlgorithms
 {
     public interface IRecombinationProvider
     {
-        ArrayList Recombine(ArrayList maleGenes, ArrayList femaleGenes);
+        List<Gene> Recombine<Gene>(List<Gene> maleGenes, List<Gene> femaleGenes) where Gene: IGene, new();
     }
 
     public class GenesIncompatibleException : Exception

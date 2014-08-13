@@ -22,11 +22,12 @@
  *  http://www.amazon.de/wishlist/1GWSB78PYVFBQ
  */
 using System.Collections;
+using System.Collections.Generic;
 
 namespace GeneticAlgorithms
 {
     public interface IFitnessFunctionProvider
     {
-        float ComputeFitness(ArrayList genes);
+        float ComputeFitness<Gene>(List<Gene> genes);
     }
 }

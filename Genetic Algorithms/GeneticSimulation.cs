@@ -363,8 +363,7 @@ namespace GeneticAlgorithms
         /// <returns></returns>
         protected Chromosome<Gene> selectMaleChromosome()
         {
-            // TODO Plz no Arraylists
-            return this._maleSelector.select(new ArrayList(this._population), this.TotalFitness) as Chromosome<Gene>;
+            return this._maleSelector.Select(this._population, this.TotalFitness);
         }
 
         /// <summary>
@@ -373,8 +372,7 @@ namespace GeneticAlgorithms
         /// <returns></returns>
         protected Chromosome<Gene> selectFemaleChromosome()
         {
-            // TODO Plz no Arraylists
-            return this._femaleSelector.select(new ArrayList(this._population), this.TotalFitness) as Chromosome<Gene>;
+            return this._femaleSelector.Select(this._population, this.TotalFitness);
         }
 
         /// <summary>
@@ -407,25 +405,38 @@ namespace GeneticAlgorithms
         /// </summary>
         virtual public void RunSimulation()
         {
+            // Create and populate a new population
             List<Chromosome<Gene>> newPopulation = new List<Chromosome<Gene>>(_populationSize);
-            Chromosome<Gene> newChromosome = null;
             while (newPopulation.Count < this._populationSize)
             {
+
                 try
                 {
-                    newChromosome = this.selectMaleChromosome().Recombine(this.selectFemaleChromosome(), this._recombinator);
+
+                    // Combine the parents to make a child
+                    Chromosome<Gene> newChromosome = this.selectMaleChromosome().Recombine(this.selectFemaleChromosome(), _recombinator);
+
+                    // For each gene in the chromosome
                     for (int i = 0; i < newChromosome.GeneCount; i++)
                     {
+                        
+                        // Mutate genes
                         if (Randomizer.NextDouble() < this._geneMutationRate)
                             newChromosome[i].Mutate();
+
+                        // Duplicate genes
                         if (Randomizer.NextDouble() < this._geneDuplicationRate)
                             newChromosome.DuplicateGene(i);
+
+                        // Drop genes
                         if (newChromosome.GeneCount > 1 && Randomizer.NextDouble() < this._geneDropRate)
                             newChromosome.DropGene(i);
                     }
                     newChromosome.computeFitness(this._fitnessCalculator);
                     newPopulation.Add(newChromosome);
                 }
+
+                // Handle incompatible genes
                 catch (GenesIncompatibleException ignore)
                 {
                     // TODO do something
