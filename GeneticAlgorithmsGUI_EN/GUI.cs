@@ -323,8 +323,8 @@ namespace GeneticAlgorithmsGUI_EN
             this.avgLengthList.Add(turn, GenSim.AverageChromosomeLength);
             if (zgc_Simulationsgraph.GraphPane.YAxisList[1].Scale.Max < GenSim.AverageChromosomeLength)
                 zgc_Simulationsgraph.GraphPane.YAxisList[1].Scale.Max = GenSim.AverageChromosomeLength + 1;
-            this.maxFitnessList.Add(turn, GenSim.MostSuccessfullIndividual.Fitness);
-            this.minFitnessList.Add(turn, GenSim.LeasSuccessfullIndividual.Fitness);
+            this.maxFitnessList.Add(turn, GenSim.MostSuccessfulIndividual.Fitness);
+            this.minFitnessList.Add(turn, GenSim.LeastSuccessfulIndividual.Fitness);
             if (turn % 10 == 0 && chk_Live.Checked)
             {
                 zgc_Simulationsgraph.AxisChange();
@@ -390,8 +390,8 @@ namespace GeneticAlgorithmsGUI_EN
             {
                 dgv_Population.Rows.Clear();
 
-                dgv_Population.Rows.Add(GenSim.PoppulationSize);
-                for (int i = 0; i < GenSim.PoppulationSize; i++)
+                dgv_Population.Rows.Add(GenSim.PopulationSize);
+                for (int i = 0; i < GenSim.PopulationSize; i++)
                 {
                     dgv_Population.Rows[i].Cells[0].Value = GenSim[i].GeneCount.ToString();
                     dgv_Population.Rows[i].Cells[1].Value = GenSim[i].ToString();

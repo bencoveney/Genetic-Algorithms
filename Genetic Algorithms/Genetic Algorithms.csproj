@@ -70,26 +70,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Example Classes\BoolGene.cs" />
-    <Compile Include="Example Classes\Mondlandungs\MondlandungsSimulation.cs" />
-    <Compile Include="Example Classes\Mondlandungs\Raumfahrer.cs" />
-    <Compile Include="Example Classes\Mondlandungs\Raumschiff.cs" />
-    <Compile Include="Example Classes\UniformMultiPointCrossoverRecombinator.cs" />
+    <Compile Include="ExampleClasses\BoolGene.cs" />
+    <Compile Include="ExampleClasses\Mondlandungs\MondlandungsSimulation.cs" />
+    <Compile Include="ExampleClasses\Mondlandungs\Raumfahrer.cs" />
+    <Compile Include="ExampleClasses\Mondlandungs\Raumschiff.cs" />
+    <Compile Include="ExampleClasses\UniformMultiPointCrossoverRecombinator.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Example Classes\AlphaSelector.cs" />
-    <Compile Include="Example Classes\AsymetricCrossoverRecombinator.cs" />
-    <Compile Include="Example Classes\AsymmetricZipRecombinator.cs" />
-    <Compile Include="Example Classes\BoolGrowthLimitedFitness.cs" />
-    <Compile Include="Example Classes\BoolSumFitness.cs" />
-    <Compile Include="Example Classes\CrossoverRecombinator.cs" />
-    <Compile Include="Example Classes\IntGene.cs" />
+    <Compile Include="ExampleClasses\AlphaSelector.cs" />
+    <Compile Include="ExampleClasses\AsymetricCrossoverRecombinator.cs" />
+    <Compile Include="ExampleClasses\AsymmetricZipRecombinator.cs" />
+    <Compile Include="ExampleClasses\BoolGrowthLimitedFitness.cs" />
+    <Compile Include="ExampleClasses\BoolSumFitness.cs" />
+    <Compile Include="ExampleClasses\CrossoverRecombinator.cs" />
+    <Compile Include="ExampleClasses\IntGene.cs" />
     <Compile Include="Chromosome.cs" />
-    <Compile Include="Example Classes\PieCakeSelector.cs" />
-    <Compile Include="Example Classes\RandomSelector.cs" />
+    <Compile Include="ExampleClasses\PieCakeSelector.cs" />
+    <Compile Include="ExampleClasses\RandomSelector.cs" />
     <Compile Include="GeneticSimulation.cs" />
     <Compile Include="IChromosome.cs" />
     <Compile Include="IFitnessFunctionProvider.cs" />
