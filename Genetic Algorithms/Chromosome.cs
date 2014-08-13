@@ -35,7 +35,7 @@ namespace GeneticAlgorithms
     {
         /// <summary>
         /// A list of genes. It is assumed genes are stored by type Gene
-        /// TODO convert from arraylist to typed list
+        ///TODO convert from arraylist to typed list
         /// </summary>
         protected ArrayList _genes;
 

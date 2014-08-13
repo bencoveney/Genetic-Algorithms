@@ -23,6 +23,8 @@
  */
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 
 namespace GeneticAlgorithms
@@ -35,107 +37,81 @@ namespace GeneticAlgorithms
     /// <typeparam name="Gene">The type of the Gene.</typeparam>
     public class GeneticSimulation<Gene> where Gene: IGene, new()
     {
-        // TODO underscore and comment
-        private IFitnessFunctionProvider fitnessComputer;
-        private IRecombinationProvider recombinator;
-        private ISelectionProvider maleSelector;
-        private ISelectionProvider femaleSelector;
-        private double geneMutationRate;
-        private double geneDropRate;
-        private double geneDuplicationRate;
-        private float totalFitness;
-        private float averageChromosomeLength;
-        private int populationSize;
-        private int defaultChromosomeLength;
-        private Chromosome<Gene> mostSuccessfulIndividual;
-        private Chromosome<Gene> leastSuccessfulIndividual;
-        protected Random randomizer;
-        private bool abort = false;
+        #region Static Members
+
+        /// <summary>
+        /// A random number provider
+        /// </summary>
+        protected static Random Randomizer = new Random(DateTime.Now.Millisecond);
+        
+        #endregion
+
+        #region Member Data
+
+        /// <summary>
+        /// The fitness function used to calculate fitness
+        /// </summary>
+        private IFitnessFunctionProvider _fitnessCalculator;
+
+        /// <summary>
+        /// Used to combine two chromosomes into one
+        /// </summary>
+        private IRecombinationProvider _recombinator;
+
+        /// <summary>
+        /// The selection strategy used for picking the male chromosome
+        /// </summary>
+        private ISelectionProvider _maleSelector;
+
+        /// <summary>
+        /// The selection strategy used for picking the female chromosome
+        /// </summary>
+        private ISelectionProvider _femaleSelector;
+
+        /// <summary>
+        /// The rate at which mutation occurs in the chromosome
+        /// </summary>
+        private double _geneMutationRate;
+
+        /// <summary>
+        /// The rate at which genes are removed from the chromosome
+        /// </summary>
+        private double _geneDropRate;
+
+        /// <summary>
+        /// The rate at which genes are duplicated within the chromosome
+        /// </summary>
+        private double _geneDuplicationRate;
+
+        /// <summary>
+        /// The amount of chromosomes in the population
+        /// </summary>
+        private int _populationSize;
+
+        /// <summary>
+        /// The amount of genes in each chromosome by default
+        /// </summary>
+        private int _defaultChromosomeLength;
+
+        /// <summary>
+        /// Used to interrupt the running simulations
+        /// </summary>
+        private bool _abort = false;
 
         /// <summary>
         /// The population of Chromosomes
         /// TODO to list
         /// </summary>
-        protected ArrayList population;
+        protected List<Chromosome<Gene>> _population;
 
         /// <summary>
-        /// Selects the male chromosome from the population
+        /// An event to be triggered after each iteration of the simulation
         /// </summary>
-        /// <returns></returns>
-        protected Chromosome<Gene> selectMaleChromosome()
-        {
-            return this.maleSelector.select(this.population, this.totalFitness) as Chromosome<Gene>;
-        }
+        public OnSimulationTurn SimulationTurn;
 
-        /// <summary>
-        /// Selects the female chromosome from the population
-        /// </summary>
-        /// <returns></returns>
-        protected Chromosome<Gene> selectFemaleChromosome()
-        {
-            return this.femaleSelector.select(this.population, this.totalFitness) as Chromosome<Gene>;
-        }
+        #endregion
 
-        /// <summary>
-        /// Gets the population
-        /// </summary>
-        public ArrayList Population
-        {
-            get
-            {
-                return population;
-            }
-        }
-
-        /// <summary>
-        /// Gets the gene at a specified location
-        /// </summary>
-        /// <param name="index">The chromosome location to access</param>
-        /// <returns>The chromosome</returns>
-        public Chromosome<Gene> this[int index]
-        {
-            get
-            {
-                return population[index] as Chromosome<Gene>;
-            }
-        }
-
-        /// <summary>
-        /// Aborts the simulation.
-        /// </summary>
-        public void AbortSimulation()
-        {
-            abort = true;
-        }
-
-        /// <summary>
-        /// Gets the size of the population.
-        /// </summary>
-        /// <value>
-        /// The size of the population.
-        /// </value>
-        public int PopulationSize
-        {
-            get
-            {
-                return this.populationSize;
-            }
-        }
-
-        /// <summary>
-        /// Gets the default gene count.
-        /// TODO why is this ever needed?
-        /// </summary>
-        /// <value>
-        /// The default gene count.
-        /// </value>
-        public int DefaultGeneCount
-        {
-            get
-            {
-                return this.defaultChromosomeLength;
-            }
-        }
+        #region Constructors
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GeneticSimulation{Gene}"/> class.
@@ -145,7 +121,7 @@ namespace GeneticAlgorithms
         /// <param name="fitnessComputer">The fitness computer.</param>
         /// <param name="recombinator">The recombinator.</param>
         /// <param name="selector">The selector.</param>
-        public GeneticSimulation(int populationSize, int defaultGeneCount,IFitnessFunctionProvider fitnessComputer, IRecombinationProvider recombinator, ISelectionProvider selector):
+        public GeneticSimulation(int populationSize, int defaultGeneCount, IFitnessFunctionProvider fitnessComputer, IRecombinationProvider recombinator, ISelectionProvider selector) :
             this(populationSize, defaultGeneCount, fitnessComputer, recombinator, selector, selector)
         {
         }
@@ -162,26 +138,77 @@ namespace GeneticAlgorithms
         public GeneticSimulation(int populationSize, int defaultGeneCount, IFitnessFunctionProvider fitnessComputer, IRecombinationProvider recombinator, ISelectionProvider maleSelector, ISelectionProvider femaleSelector)
         {
             // Assign parameters to local variables
-            this.fitnessComputer = fitnessComputer;
-            this.recombinator = recombinator;
-            this.maleSelector = maleSelector;
-            this.femaleSelector = femaleSelector;
-            this.populationSize = populationSize;
-            this.defaultChromosomeLength = defaultGeneCount;
+            this._fitnessCalculator = fitnessComputer;
+            this._recombinator = recombinator;
+            this._maleSelector = maleSelector;
+            this._femaleSelector = femaleSelector;
+            this._populationSize = populationSize;
+            this._defaultChromosomeLength = defaultGeneCount;
 
             // Initialise gene properties
             // TODO Constants
-            this.geneMutationRate = 0.01d;
-            this.geneDuplicationRate = 0.0d;
-            this.geneDropRate = 0.0d;
-
-            // Initialise the random number generation
-            // TODO static member
-            // TODO seed
-            this.randomizer = new Random();
+            this._geneMutationRate = 0.01d;
+            this._geneDuplicationRate = 0.0d;
+            this._geneDropRate = 0.0d;
 
             // Initialise the simulation
             this.ResetSimulation();
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the population
+        /// </summary>
+        public List<Chromosome<Gene>> Population
+        {
+            get
+            {
+                return _population;
+            }
+        }
+
+        /// <summary>
+        /// Gets the gene at a specified location
+        /// </summary>
+        /// <param name="index">The chromosome location to access</param>
+        /// <returns>The chromosome</returns>
+        public Chromosome<Gene> this[int index]
+        {
+            get
+            {
+                return _population[index] as Chromosome<Gene>;
+            }
+        }
+
+        /// <summary>
+        /// Gets the size of the population.
+        /// </summary>
+        /// <value>
+        /// The size of the population.
+        /// </value>
+        public int PopulationSize
+        {
+            get
+            {
+                return this._populationSize;
+            }
+        }
+
+        /// <summary>
+        /// Gets the default gene count.
+        /// </summary>
+        /// <value>
+        /// The default gene count.
+        /// </value>
+        public int DefaultGeneCount
+        {
+            get
+            {
+                return this._defaultChromosomeLength;
+            }
         }
 
         /// <summary>
@@ -194,7 +221,7 @@ namespace GeneticAlgorithms
         {
             get
             {
-                return this.averageChromosomeLength;
+                return _population.Average(x => x.Fitness);
             }
         }
 
@@ -208,7 +235,7 @@ namespace GeneticAlgorithms
         {
             get
             {
-                return mostSuccessfulIndividual;
+                return _population.OrderByDescending(x => x.Fitness).First();
             }
         }
 
@@ -220,9 +247,9 @@ namespace GeneticAlgorithms
         /// </value>
         public Chromosome<Gene> LeastSuccessfulIndividual
         {
-            get 
+            get
             {
-                return leastSuccessfulIndividual;
+                return _population.OrderByDescending(x => x.Fitness).Last();
             }
         }
 
@@ -236,7 +263,7 @@ namespace GeneticAlgorithms
         {
             get
             {
-                return totalFitness;
+                return _population.Sum(x => x.Fitness);
             }
         }
 
@@ -250,7 +277,7 @@ namespace GeneticAlgorithms
         {
             get
             {
-                return totalFitness / population.Count;
+                return TotalFitness / _populationSize;
             }
         }
 
@@ -262,8 +289,8 @@ namespace GeneticAlgorithms
         /// </value>
         public double GeneMutationRate
         {
-            get { return geneMutationRate; }
-            set { geneMutationRate = value; }
+            get { return _geneMutationRate; }
+            set { _geneMutationRate = value; }
         }
 
         /// <summary>
@@ -274,8 +301,8 @@ namespace GeneticAlgorithms
         /// </value>
         public double GeneDuplicationRate
         {
-            get { return geneDuplicationRate; }
-            set { geneDuplicationRate = value; }
+            get { return _geneDuplicationRate; }
+            set { _geneDuplicationRate = value; }
         }
 
         /// <summary>
@@ -286,8 +313,8 @@ namespace GeneticAlgorithms
         /// </value>
         public double GeneDropRate
         {
-            get { return geneDropRate; }
-            set { geneDropRate = value; }
+            get { return _geneDropRate; }
+            set { _geneDropRate = value; }
         }
 
         /// <summary>
@@ -298,13 +325,13 @@ namespace GeneticAlgorithms
         /// </value>
         public IFitnessFunctionProvider FitnessComputer
         {
-            get 
-            { 
-                return fitnessComputer; 
+            get
+            {
+                return _fitnessCalculator;
             }
             set
             {
-                fitnessComputer = value;
+                _fitnessCalculator = value;
             }
         }
 
@@ -316,20 +343,47 @@ namespace GeneticAlgorithms
         /// </value>
         public IRecombinationProvider Recombinator
         {
-            get 
-            { 
-                return recombinator; 
+            get
+            {
+                return _recombinator;
             }
             set
             {
-                recombinator = value;
+                _recombinator = value;
             }
         }
 
+        #endregion
+
+        #region Member Methods
+
         /// <summary>
-        /// An event to be triggered after each iteration of the simulation
+        /// Selects the male chromosome from the population
         /// </summary>
-        public OnSimulationTurn SimulationTurn;
+        /// <returns></returns>
+        protected Chromosome<Gene> selectMaleChromosome()
+        {
+            // TODO Plz no Arraylists
+            return this._maleSelector.select(new ArrayList(this._population), this.TotalFitness) as Chromosome<Gene>;
+        }
+
+        /// <summary>
+        /// Selects the female chromosome from the population
+        /// </summary>
+        /// <returns></returns>
+        protected Chromosome<Gene> selectFemaleChromosome()
+        {
+            // TODO Plz no Arraylists
+            return this._femaleSelector.select(new ArrayList(this._population), this.TotalFitness) as Chromosome<Gene>;
+        }
+
+        /// <summary>
+        /// Aborts the simulation.
+        /// </summary>
+        public void AbortSimulation()
+        {
+            _abort = true;
+        }
 
         /// <summary>
         /// Initialises the simulation
@@ -337,39 +391,15 @@ namespace GeneticAlgorithms
         virtual public void ResetSimulation()
         {
             // Reset the population
-            population = new ArrayList(this.populationSize);
+            _population = new List<Chromosome<Gene>>(this._populationSize);
 
             // Fill the population with individuals
-            while (this.population.Count < this.populationSize)
+            while (this._population.Count < this._populationSize)
             {
-                Chromosome<Gene> chromosome = new Chromosome<Gene>(this.defaultChromosomeLength);
-                chromosome.computeFitness(this.fitnessComputer);
-                this.population.Add(chromosome);
+                Chromosome<Gene> chromosome = new Chromosome<Gene>(this._defaultChromosomeLength);
+                chromosome.computeFitness(this._fitnessCalculator);
+                this._population.Add(chromosome);
             }
-
-            // Calculate statistics for the new generation
-            populateStatistics();
-        }
-
-        /// <summary>
-        /// Calculates the statistics (eg fitness) for each chromosome
-        /// </summary>
-        virtual protected void populateStatistics()
-        {
-            this.totalFitness = 0;
-            this.averageChromosomeLength = 0;
-            this.leastSuccessfulIndividual = null;
-            this.mostSuccessfulIndividual = null;
-            foreach (Chromosome<Gene> chromosome in this.population)
-            {
-                if (this.leastSuccessfulIndividual == null || this.leastSuccessfulIndividual.Fitness > chromosome.Fitness)
-                    this.leastSuccessfulIndividual = chromosome;
-                if (this.mostSuccessfulIndividual == null || this.mostSuccessfulIndividual.Fitness < chromosome.Fitness)
-                    this.mostSuccessfulIndividual = chromosome;
-                totalFitness += chromosome.Fitness;
-                averageChromosomeLength += chromosome.GeneCount;
-            }
-            this.averageChromosomeLength /= this.population.Count;
         }
 
         /// <summary>
@@ -377,23 +407,23 @@ namespace GeneticAlgorithms
         /// </summary>
         virtual public void RunSimulation()
         {
-            ArrayList newPopulation = new ArrayList(populationSize);
+            List<Chromosome<Gene>> newPopulation = new List<Chromosome<Gene>>(_populationSize);
             Chromosome<Gene> newChromosome = null;
-            while (newPopulation.Count < this.populationSize)
+            while (newPopulation.Count < this._populationSize)
             {
                 try
                 {
-                    newChromosome = this.selectMaleChromosome().Recombine(this.selectFemaleChromosome(), this.recombinator);
+                    newChromosome = this.selectMaleChromosome().Recombine(this.selectFemaleChromosome(), this._recombinator);
                     for (int i = 0; i < newChromosome.GeneCount; i++)
                     {
-                        if (this.randomizer.NextDouble() < this.geneMutationRate)
+                        if (Randomizer.NextDouble() < this._geneMutationRate)
                             newChromosome[i].Mutate();
-                        if (this.randomizer.NextDouble() < this.geneDuplicationRate)
+                        if (Randomizer.NextDouble() < this._geneDuplicationRate)
                             newChromosome.DuplicateGene(i);
-                        if (newChromosome.GeneCount > 1 && this.randomizer.NextDouble() < this.geneDropRate)
+                        if (newChromosome.GeneCount > 1 && Randomizer.NextDouble() < this._geneDropRate)
                             newChromosome.DropGene(i);
                     }
-                    newChromosome.computeFitness(this.fitnessComputer);
+                    newChromosome.computeFitness(this._fitnessCalculator);
                     newPopulation.Add(newChromosome);
                 }
                 catch (GenesIncompatibleException ignore)
@@ -401,10 +431,8 @@ namespace GeneticAlgorithms
                     // TODO do something
                 }
             }
-                
-            this.population = newPopulation;
 
-            this.populateStatistics();
+            this._population = newPopulation;
 
             if (SimulationTurn != null)
                 SimulationTurn(this, EventArgs.Empty);
@@ -413,18 +441,24 @@ namespace GeneticAlgorithms
         /// <summary>
         /// Runs multiple iterations of the simulation
         /// </summary>
-        /// <param name="turns"></param>
+        /// <param name="turns">The number of times to run the simulation</param>
         public void RunSimulation(int turns)
         {
+            // for each turn
             for (int i = 0; i < turns; i++)
             {
+                // Run the simulation
                 this.RunSimulation();
-                if (abort)
+                
+                // If the simulation has been aborted, quit the simulation
+                if (_abort)
                 {
-                    abort = false;
+                    _abort = false;
                     break;
                 }
             }
         }
+
+        #endregion
     }
 }
