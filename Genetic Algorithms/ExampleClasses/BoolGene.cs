@@ -28,21 +28,17 @@ namespace GeneticAlgorithms.ExampleClasses
     public class BoolGene :
         IGene
     {
-        private static Random randomizer = null;
+        private static Random randomizer = new Random(DateTime.Now.Millisecond);
         protected bool value;
 
         public BoolGene(bool value)
         {
-            if (BoolGene.randomizer == null)
-                BoolGene.randomizer = new Random();
             this.value = value;
         }
 
         public BoolGene()
         {
-            if (BoolGene.randomizer == null)
-                BoolGene.randomizer = new Random();
-            this.Mutate();
+            this.value = Convert.ToBoolean(randomizer.Next(0, 2));
         }
 
         public override string ToString()
@@ -53,12 +49,21 @@ namespace GeneticAlgorithms.ExampleClasses
                 return "0";
             //return value.ToString();
         }
+
+        public bool Value
+        {
+            get
+            {
+                return this.value;
+            }
+        }
     
         #region IGene Member
 
         public void Mutate()
         {
-            this.value = !this.value;//Convert.ToBoolean(randomizer.Next(0, 2));
+            this.value = !this.value;
+            //this.value = Convert.ToBoolean(randomizer.Next(0, 2));
         }
 
         #endregion

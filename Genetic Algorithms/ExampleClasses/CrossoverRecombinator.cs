@@ -34,15 +34,15 @@ namespace GeneticAlgorithms.ExampleClasses
         {
             if (maleGenes.Count != femaleGenes.Count)
                 throw new GenesIncompatibleException();
-            List<Gene> child = new List<Gene>(maleGenes.Count);
+            List<Gene> child = new List<Gene>();
 
             // Caclulate the mid-point
             // TODO random mid-point
             int middle = maleGenes.Count / 2;
 
             // Copy over the genes
-            child.CopyTo(maleGenes.GetRange(0, middle).ToArray());
-            child.CopyTo(femaleGenes.GetRange(middle, femaleGenes.Count - middle).ToArray());
+            maleGenes.GetRange(0, middle).ForEach(x => child.Add((Gene)x.Clone()));
+            femaleGenes.GetRange(middle, femaleGenes.Count - middle).ForEach(x => child.Add((Gene)x.Clone()));
 
             return child;
         }

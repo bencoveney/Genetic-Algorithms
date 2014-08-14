@@ -33,6 +33,10 @@ namespace GeneticAlgorithms
 
     /// <summary>
     /// An instance of a Genetic Simulation
+    /// TODO remove CopyTos
+    /// TODO ensure cloning
+    /// TODO mutation constants and passed as params
+    /// TODO crossover as a probability
     /// </summary>
     /// <typeparam name="Gene">The type of the Gene.</typeparam>
     public class GeneticSimulation<Gene> where Gene: IGene, new()
@@ -147,7 +151,7 @@ namespace GeneticAlgorithms
 
             // Initialise gene properties
             // TODO Constants
-            this._geneMutationRate = 0.01d;
+            this._geneMutationRate = 0.05d;
             this._geneDuplicationRate = 0.0d;
             this._geneDropRate = 0.0d;
 
@@ -412,9 +416,10 @@ namespace GeneticAlgorithms
 
                 try
                 {
-
                     // Combine the parents to make a child
-                    Chromosome<Gene> newChromosome = this.selectMaleChromosome().Recombine(this.selectFemaleChromosome(), _recombinator);
+                    Chromosome<Gene> father = this.selectMaleChromosome();
+                    Chromosome<Gene> mother = this.selectFemaleChromosome();
+                    Chromosome<Gene> newChromosome = father.Recombine(mother, _recombinator);
 
                     // For each gene in the chromosome
                     for (int i = 0; i < newChromosome.GeneCount; i++)

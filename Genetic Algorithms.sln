@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeneticAlgorithmsGUI", "Gen
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeneticAlgorithmsGUI_EN", "GeneticAlgorithmsGUI_EN\GeneticAlgorithmsGUI_EN.csproj", "{D718E6ED-A75F-4CA6-BA40-7323EBAE5460}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeneticAlgorithmsExample_BoolStrings", "GeneticAlgorithmsExample_BoolStrings\GeneticAlgorithmsExample_BoolStrings.csproj", "{31687AA2-3D5E-4A45-AB03-83C46D204325}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +34,10 @@ Global
 		{D718E6ED-A75F-4CA6-BA40-7323EBAE5460}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D718E6ED-A75F-4CA6-BA40-7323EBAE5460}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D718E6ED-A75F-4CA6-BA40-7323EBAE5460}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31687AA2-3D5E-4A45-AB03-83C46D204325}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31687AA2-3D5E-4A45-AB03-83C46D204325}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31687AA2-3D5E-4A45-AB03-83C46D204325}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31687AA2-3D5E-4A45-AB03-83C46D204325}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

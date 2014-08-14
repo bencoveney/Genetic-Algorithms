@@ -24,7 +24,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace GeneticAlgorithms.Example_Classes
+namespace GeneticAlgorithms.ExampleClasses
 {
     public class AsymmetricZipRecombinator : IRecombinationProvider
     {

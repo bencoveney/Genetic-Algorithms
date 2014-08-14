@@ -27,20 +27,22 @@ using System.Collections.Generic;
 
 namespace GeneticAlgorithms.ExampleClasses
 {
+    /// <summary>
+    /// Selects the absolute best chromosome from a population
+    /// </summary>
     public class AlphaSelector : ISelectionProvider
     {
-
-        #region ISelectionProvider Member
-
+        /// <summary>
+        /// Selects the absolute best chromosome from a population
+        /// </summary>
+        /// <typeparam name="Chromosome">The type of the chromosome.</typeparam>
+        /// <param name="population">The population.</param>
+        /// <param name="totalFitness">The total fitness.</param>
+        /// <returns>The selected chromosome</returns>
         public Chromosome Select<Chromosome>(List<Chromosome> population, float totalFitness) where Chromosome: IChromosome
         {
-            Chromosome alphaChromosome = population.First();
-            foreach (Chromosome chromosome in population)
-                if (alphaChromosome == null || alphaChromosome.Fitness < chromosome.Fitness)
-                    alphaChromosome = chromosome;
-            return alphaChromosome;
+            // Return the chromosome with the highest fitness
+            return population.OrderByDescending(x => x.Fitness).First();
         }
-
-        #endregion
     }
 }
