@@ -21,27 +21,28 @@
  *  If you wish to donate, please have a look at my Amazon Wishlist:
  *  http://www.amazon.de/wishlist/1GWSB78PYVFBQ
  */
-using System.Collections;
+using System.Collections.Generic;
 
-namespace GeneticAlgorithms
+namespace GeneticAlgorithms.ExampleClasses
 {
     public class CrossoverRecombinator : 
         IRecombinationProvider
     {
         #region IRecombinationProvider Member
 
-        public ArrayList Recombine(ArrayList maleGenes, ArrayList femaleGenes)
+        public List<Gene> Recombine<Gene>(List<Gene> maleGenes, List<Gene> femaleGenes) where Gene: IGene, new()
         {
             if (maleGenes.Count != femaleGenes.Count)
                 throw new GenesIncompatibleException();
-            ArrayList child = new ArrayList(maleGenes.Count);
+            List<Gene> child = new List<Gene>(maleGenes.Count);
+
+            // Caclulate the mid-point
+            // TODO random mid-point
             int middle = maleGenes.Count / 2;
-            child.InsertRange(0, maleGenes.GetRange(0, middle).Clone() as ArrayList);
-            child.InsertRange(middle, femaleGenes.GetRange(middle, femaleGenes.Count - middle).Clone() as ArrayList);
-            
-            // Create Deep Copy
-            for (int i = 0; i < child.Count; i++)
-                child[i] = (child[i] as IGene).Clone();
+
+            // Copy over the genes
+            child.CopyTo(maleGenes.GetRange(0, middle).ToArray());
+            child.CopyTo(femaleGenes.GetRange(middle, femaleGenes.Count - middle).ToArray());
 
             return child;
         }

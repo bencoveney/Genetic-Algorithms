@@ -23,6 +23,7 @@
  */
 using System;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace GeneticAlgorithms.ExampleClasses
 {
@@ -32,18 +33,15 @@ namespace GeneticAlgorithms.ExampleClasses
         Random random = new Random();
         #region IRecombinationProvider Member
 
-        public ArrayList Recombine(ArrayList maleGenes, ArrayList femaleGenes)
+        public List<Gene> Recombine<Gene>(List<Gene> maleGenes, List<Gene> femaleGenes) where Gene: IGene, new()
         {
             double maleConstraint = random.NextDouble();
             int maleCount = (int)Math.Ceiling(maleGenes.Count * maleConstraint);
             int femaleCount = (int)Math.Floor(femaleGenes.Count * (1-maleConstraint));
-            ArrayList child = new ArrayList(maleCount + femaleCount);
-            child.InsertRange(0, maleGenes.GetRange(0, maleCount));
-            child.InsertRange(maleCount, femaleGenes.GetRange(femaleGenes.Count - femaleCount, femaleCount));
-
-            for (int i = 0; i < child.Count; i++)
-                child[i] = (child[i] as IGene).Clone();
-
+            List<Gene> child = new List<Gene>(maleCount + femaleCount);
+            child.CopyTo(maleGenes.GetRange(0, maleCount).ToArray(), 0);
+            child.CopyTo(femaleGenes.GetRange(femaleGenes.Count - femaleCount, femaleCount).ToArray(), maleCount);
+            
             return child;
         }
 

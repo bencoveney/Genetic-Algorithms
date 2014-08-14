@@ -38,6 +38,10 @@ namespace GeneticAlgorithms
         {
             get;
         }
+        float Fitness
+        { 
+            get;
+        }
         void DuplicateGene(int index);
         void DropGene(int index);
     }

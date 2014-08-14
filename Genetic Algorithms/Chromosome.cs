@@ -83,7 +83,7 @@ namespace GeneticAlgorithms
         /// Calculates the chromosome's fitness
         /// </summary>
         /// <param name="provider">The fitness function provider to use in the calculation</param>
-        public void computeFitness(IFitnessFunctionProvider provider)
+        public void computeFitness(IFitnessFunctionProvider<Gene> provider)
         {
             this._fitness = provider.ComputeFitness(this._genes);
         }

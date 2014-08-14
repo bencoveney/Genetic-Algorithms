@@ -22,7 +22,7 @@
  *  http://www.amazon.de/wishlist/1GWSB78PYVFBQ
  */
 using System;
-using System.Collections;
+using System.Collections.Generic;
 
 namespace GeneticAlgorithms.Example_Classes
 {
@@ -30,30 +30,26 @@ namespace GeneticAlgorithms.Example_Classes
     {
         #region IRecombinationProvider Member
 
-        public System.Collections.ArrayList Recombine(System.Collections.ArrayList maleGenes, System.Collections.ArrayList femaleGenes)
+        public List<Gene> Recombine<Gene>(List<Gene> maleGenes, List<Gene> femaleGenes) where Gene: IGene, new()
         {
-            ArrayList child;
+            List<Gene> child = new List<Gene>();
 
             if (maleGenes.Count < femaleGenes.Count)
             {
-                child = femaleGenes.Clone() as ArrayList;
+                child.CopyTo(femaleGenes.ToArray());
                 for (int i = 0; i < maleGenes.Count; i++)
                 {
                     if (!Convert.ToBoolean(i % 2))
                         child[i] = maleGenes[i];
-                    // Deep Copy
-                    child[i] = (child[i] as IGene).Clone();
                 }
             }
             else
             {
-                child = maleGenes.Clone() as ArrayList;
+                child.CopyTo(maleGenes.ToArray());
                 for (int i = 0; i < femaleGenes.Count; i++)
                 {
                     if (!Convert.ToBoolean(i % 2))
                         child[i] = femaleGenes[i];
-                    // Deep Copy
-                    child[i] = (child[i] as IGene).Clone();
                 }
             }
             return child;

@@ -26,8 +26,8 @@ using System.Collections.Generic;
 
 namespace GeneticAlgorithms
 {
-    public interface IFitnessFunctionProvider
+    public interface IFitnessFunctionProvider<Gene> where Gene: IGene, new()
     {
-        float ComputeFitness<Gene>(List<Gene> genes);
+        float ComputeFitness(List<Gene> genes);
     }
 }

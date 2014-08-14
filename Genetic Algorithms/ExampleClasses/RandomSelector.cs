@@ -38,9 +38,9 @@ namespace GeneticAlgorithms.ExampleClasses
                 RandomSelector.randomizer = new Random();
         }
 
-        public IChromosome select(System.Collections.ArrayList population, float totalFitness)
+        public Chromosome Select<Chromosome>(List<Chromosome> population, float totalFitness) where Chromosome : IChromosome
         {
-            return population[RandomSelector.randomizer.Next(0, population.Count)] as IChromosome;
+            return population[RandomSelector.randomizer.Next(0, population.Count)];
         }
 
         #endregion

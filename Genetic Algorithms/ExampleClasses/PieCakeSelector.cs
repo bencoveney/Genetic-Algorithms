@@ -23,6 +23,7 @@
  */
 using System;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace GeneticAlgorithms.Example_Classes
 {
@@ -36,7 +37,7 @@ namespace GeneticAlgorithms.Example_Classes
                 randomizer = new Random();
         }
 
-        public IChromosome select(ArrayList population, float totalFitness)
+        public Chromosome Select<Chromosome>(List<Chromosome> population, float totalFitness) where Chromosome: IChromosome
         {
             float selectionPoint = Convert.ToSingle(PieCakeSelector.randomizer.NextDouble() * totalFitness);
             int index = 0;
@@ -49,7 +50,7 @@ namespace GeneticAlgorithms.Example_Classes
             {   // kann evtl. aufgrund von numerischen Effekten auftreten, wenn wird letztes Chromosome ausgewählt
                 index--;
             }
-            return (population[index] as IChromosome);
+            return population[index];
         }
     }
 }

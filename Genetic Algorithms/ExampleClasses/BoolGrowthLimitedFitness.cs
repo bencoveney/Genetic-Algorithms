@@ -22,14 +22,15 @@
  *  http://www.amazon.de/wishlist/1GWSB78PYVFBQ
  */
 using System.Collections;
+using System.Collections.Generic;
 
 namespace GeneticAlgorithms.ExampleClasses
 {
-    public class BoolGrowthLimitedFitness : IFitnessFunctionProvider
+    public class BoolGrowthLimitedFitness : IFitnessFunctionProvider<BoolGene>
     {
         #region IFitnessFunctionProvider Member
 
-        public float ComputeFitness(ArrayList genes)
+        public float ComputeFitness(List<BoolGene> genes)
         {
             float sum = 0;
             foreach (BoolGene gene in genes)

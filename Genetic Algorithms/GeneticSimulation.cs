@@ -51,7 +51,7 @@ namespace GeneticAlgorithms
         /// <summary>
         /// The fitness function used to calculate fitness
         /// </summary>
-        private IFitnessFunctionProvider _fitnessCalculator;
+        private IFitnessFunctionProvider<Gene> _fitnessCalculator;
 
         /// <summary>
         /// Used to combine two chromosomes into one
@@ -121,7 +121,7 @@ namespace GeneticAlgorithms
         /// <param name="fitnessComputer">The fitness computer.</param>
         /// <param name="recombinator">The recombinator.</param>
         /// <param name="selector">The selector.</param>
-        public GeneticSimulation(int populationSize, int defaultGeneCount, IFitnessFunctionProvider fitnessComputer, IRecombinationProvider recombinator, ISelectionProvider selector) :
+        public GeneticSimulation(int populationSize, int defaultGeneCount, IFitnessFunctionProvider<Gene> fitnessComputer, IRecombinationProvider recombinator, ISelectionProvider selector) :
             this(populationSize, defaultGeneCount, fitnessComputer, recombinator, selector, selector)
         {
         }
@@ -135,7 +135,7 @@ namespace GeneticAlgorithms
         /// <param name="recombinator">The recombinator.</param>
         /// <param name="maleSelector">The male selector.</param>
         /// <param name="femaleSelector">The female selector.</param>
-        public GeneticSimulation(int populationSize, int defaultGeneCount, IFitnessFunctionProvider fitnessComputer, IRecombinationProvider recombinator, ISelectionProvider maleSelector, ISelectionProvider femaleSelector)
+        public GeneticSimulation(int populationSize, int defaultGeneCount, IFitnessFunctionProvider<Gene> fitnessComputer, IRecombinationProvider recombinator, ISelectionProvider maleSelector, ISelectionProvider femaleSelector)
         {
             // Assign parameters to local variables
             this._fitnessCalculator = fitnessComputer;
@@ -323,7 +323,7 @@ namespace GeneticAlgorithms
         /// <value>
         /// The fitness computer.
         /// </value>
-        public IFitnessFunctionProvider FitnessComputer
+        public IFitnessFunctionProvider<Gene> FitnessComputer
         {
             get
             {

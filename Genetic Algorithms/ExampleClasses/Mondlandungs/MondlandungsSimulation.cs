@@ -36,7 +36,7 @@ namespace GeneticAlgorithms.ExampleClasses.MondLandungs
         }
     }
 
-    public class MondlandungsSimulation : IFitnessFunctionProvider
+    public class MondlandungsSimulation : IFitnessFunctionProvider<IntGene>
     {
         private int startHoehe;
         private int startTreibstoff;
@@ -55,10 +55,10 @@ namespace GeneticAlgorithms.ExampleClasses.MondLandungs
 
         #region IFitnessFunctionProvider Member
 
-        public float ComputeFitness(ArrayList genes)
+        public float ComputeFitness(List<IntGene> genes)
         {
             float fitness = 0.0f;
-            Raumfahrer pilot = new Raumfahrer(genes);
+            Raumfahrer pilot = new Raumfahrer(new ArrayList(genes));
             Raumschiff raumschiff = new Raumschiff(pilot, startHoehe, startTreibstoff, raumschiffGewicht, nutzeRaumfahrerGewicht);
             int schub = 0;
             while (raumschiff.Hoehe > 0)

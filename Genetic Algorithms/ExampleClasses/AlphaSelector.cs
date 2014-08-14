@@ -21,7 +21,9 @@
  *  If you wish to donate, please have a look at my Amazon Wishlist:
  *  http://www.amazon.de/wishlist/1GWSB78PYVFBQ
  */
+using System.Linq;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace GeneticAlgorithms.ExampleClasses
 {
@@ -30,10 +32,10 @@ namespace GeneticAlgorithms.ExampleClasses
 
         #region ISelectionProvider Member
 
-        public IChromosome select(ArrayList population, float totalFitness)
+        public Chromosome Select<Chromosome>(List<Chromosome> population, float totalFitness) where Chromosome: IChromosome
         {
-            IChromosome alphaChromosome = null;
-            foreach (IChromosome chromosome in population)
+            Chromosome alphaChromosome = population.First();
+            foreach (Chromosome chromosome in population)
                 if (alphaChromosome == null || alphaChromosome.Fitness < chromosome.Fitness)
                     alphaChromosome = chromosome;
             return alphaChromosome;
