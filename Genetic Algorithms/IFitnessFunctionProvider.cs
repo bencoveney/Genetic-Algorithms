@@ -26,8 +26,17 @@ using System.Collections.Generic;
 
 namespace GeneticAlgorithms
 {
+    /// <summary>
+    /// Defines an interface for objects used in calculating the fitness of chromosomes
+    /// </summary>
+    /// <typeparam name="Gene">The gene type</typeparam>
     public interface IFitnessFunctionProvider<Gene> where Gene: IGene, new()
     {
+        /// <summary>
+        /// Calculates the fitness of the chromosome
+        /// </summary>
+        /// <param name="genes">The genetic data</param>
+        /// <returns></returns>
         float ComputeFitness(List<Gene> genes);
     }
 }

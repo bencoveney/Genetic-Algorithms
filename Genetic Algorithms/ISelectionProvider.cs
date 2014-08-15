@@ -26,8 +26,18 @@ using System.Collections.Generic;
 
 namespace GeneticAlgorithms
 {
+    /// <summary>
+    /// Defines an interface for objects used in selection
+    /// </summary>
     public interface ISelectionProvider
     {
+        /// <summary>
+        /// Selects a single chromosome from a chromosome population
+        /// </summary>
+        /// <typeparam name="Chromosome">The Chromosome Type</typeparam>
+        /// <param name="population">The population.</param>
+        /// <param name="totalFitness">The total fitness.</param>
+        /// <returns>The selected chromosome</returns>
         Chromosome Select<Chromosome>(List<Chromosome> population, float totalFitness) where Chromosome: IChromosome;
     }
 }

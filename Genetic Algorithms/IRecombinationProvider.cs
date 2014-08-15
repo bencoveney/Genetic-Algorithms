@@ -27,7 +27,9 @@ using System.Collections.Generic;
 
 namespace GeneticAlgorithms
 {
-
+    /// <summary>
+    /// Defines an interface for objects used in recombination
+    /// </summary>
     public interface IRecombinationProvider
     {
         /// <summary>
@@ -40,6 +42,9 @@ namespace GeneticAlgorithms
         List<Gene> Recombine<Gene>(List<Gene> maleGenes, List<Gene> femaleGenes) where Gene: IGene, new();
     }
 
+    /// <summary>
+    /// To be thrown when recombination is attempted on incompatible genes
+    /// </summary>
     public class GenesIncompatibleException : Exception
     {
     }

@@ -32,17 +32,37 @@ namespace GeneticAlgorithms
      * - IChromosome.DuplicateGene dupliziert das Gen an der durch index bestimmten Position im Chromosom
      * - IChromosome.DropGene entfernt das Gen an der durch index bestimmten Position im Chromosom
      */
+    /// <summary>
+    /// Defines a single individual's collection of genetic data
+    /// </summary>
     public interface IChromosome
     {
+        /// <summary>
+        /// Provides the number of genes in the Chromosome
+        /// </summary>
         int GeneCount
         {
             get;
         }
+
+        /// <summary>
+        /// Provides the fitness score of the individual
+        /// </summary>
         float Fitness
         { 
             get;
         }
+
+        /// <summary>
+        /// Duplicates the gene at the specified location
+        /// </summary>
+        /// <param name="index">The location to duplicate the gene at</param>
         void DuplicateGene(int index);
+
+        /// <summary>
+        /// Removes the gene at the specified location
+        /// </summary>
+        /// <param name="index">The location to remove the gene from</param>
         void DropGene(int index);
     }
 }
