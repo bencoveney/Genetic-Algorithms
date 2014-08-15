@@ -25,17 +25,22 @@ using System;
 
 namespace GeneticAlgorithms
 {
-    /* IGene
-     *  implementiert: ICloneable
-     *  
-     * Alle Genklassen müssen dieses Interface implementieren.
-     * - ICloneable.Clone() muss eine value-Kopie des Objektes erzeugen
-     * - IGene.Equals() muss einen value-Vergleich der Objekte vornehmen
-     * - IGene.Mutate() muss den Wert des Gens (zufällig) verändern; bei binären Genen ist eine invertierung erlaubt
-     */
+    /// <summary>
+    /// Defines a single element of genetic data
+    /// Derived classes must offer deep copying as per IClonable
+    /// </summary>
     public interface IGene : ICloneable
     {
+        /// <summary>
+        /// Assigns the gene a random value
+        /// </summary>
         void Mutate();
+
+        /// <summary>
+        /// Makes a value comparison of two seperate genes
+        /// </summary>
+        /// <param name="gene">The gene to compare to</param>
+        /// <returns>True if the genes are equal</returns>
         bool Equals(object gene);
     }
 }
