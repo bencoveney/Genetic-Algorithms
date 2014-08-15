@@ -27,8 +27,16 @@ using System.Collections.Generic;
 
 namespace GeneticAlgorithms
 {
+
     public interface IRecombinationProvider
     {
+        /// <summary>
+        /// Recombines two parent gene lists into one child
+        /// </summary>
+        /// <typeparam name="Gene">The gene's type</typeparam>
+        /// <param name="maleGenes">The father's genetic data</param>
+        /// <param name="femaleGenes">The mother's genetic data</param>
+        /// <returns>A child's genetic data</returns>
         List<Gene> Recombine<Gene>(List<Gene> maleGenes, List<Gene> femaleGenes) where Gene: IGene, new();
     }
 

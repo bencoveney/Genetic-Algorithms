@@ -24,27 +24,46 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace GeneticAlgorithms.ExampleClasses
 {
+    /// <summary>
+    /// Produces a single gene list by recombining two parents at a random point
+    /// </summary>
     public class AsymmetricCrossoverRecombinator : IRecombinationProvider
     {
-
-        Random random = new Random();
-        #region IRecombinationProvider Member
-
-        public List<Gene> Recombine<Gene>(List<Gene> maleGenes, List<Gene> femaleGenes) where Gene: IGene, new()
+        /// <summary>
+        /// Random number generator
+        /// </summary>
+        private static Random random = new Random(DateTime.Now.Millisecond);
+        
+        /// <summary>
+        /// Recombines two parent gene lists into one child
+        /// </summary>
+        /// <typeparam name="Gene">The gene's type</typeparam>
+        /// <param name="maleGenes">The father's genetic data</param>
+        /// <param name="femaleGenes">The mother's genetic data</param>
+        /// <returns>A child's genetic data</returns>
+        public List<Gene> Recombine<Gene>(List<Gene> maleGenes, List<Gene> femaleGenes) where Gene : IGene, new()
         {
-            double maleConstraint = random.NextDouble();
-            int maleCount = (int)Math.Ceiling(maleGenes.Count * maleConstraint);
-            int femaleCount = (int)Math.Floor(femaleGenes.Count * (1-maleConstraint));
-            List<Gene> child = new List<Gene>(maleCount + femaleCount);
-            child.CopyTo(maleGenes.GetRange(0, maleCount).ToArray(), 0);
-            child.CopyTo(femaleGenes.GetRange(femaleGenes.Count - femaleCount, femaleCount).ToArray(), maleCount);
+            // Calculate which parent has a longer gene
+            List<Gene> longerGene = maleGenes.Count >= femaleGenes.Count ? maleGenes : femaleGenes;
+            List<Gene> shorterGene = maleGenes.Count < femaleGenes.Count ? maleGenes : femaleGenes;
+
+            // Find a random crossover point
+            int crossoverPoint = random.Next(shorterGene.Count);
+
+            // Build the child's genetic data
+            List<Gene> child = new List<Gene>();
+            for(int i = 0; i < longerGene.Count; i++)
+            {
+                // If before the crossover take from the shorter gene, otherwise take from the longer one
+                Gene gene = i <= crossoverPoint ? shorterGene[i] : longerGene[i];
+                child.Add(gene);
+            }
             
             return child;
         }
-
-        #endregion
     }
 }

@@ -26,35 +26,43 @@ using System.Collections.Generic;
 
 namespace GeneticAlgorithms.ExampleClasses
 {
+    /// <summary>
+    /// Produces a single gene list by recombining two parents genes alternately
+    /// </summary>
     public class AsymmetricZipRecombinator : IRecombinationProvider
     {
-        #region IRecombinationProvider Member
-
+        /// <summary>
+        /// Recombines two parent gene lists into one child
+        /// </summary>
+        /// <typeparam name="Gene">The gene's type</typeparam>
+        /// <param name="maleGenes">The father's genetic data</param>
+        /// <param name="femaleGenes">The mother's genetic data</param>
+        /// <returns>A child's genetic data</returns>
         public List<Gene> Recombine<Gene>(List<Gene> maleGenes, List<Gene> femaleGenes) where Gene: IGene, new()
         {
-            List<Gene> child = new List<Gene>();
+            // Calculate which parent has a longer gene
+            List<Gene> longerGene = maleGenes.Count >= femaleGenes.Count ? maleGenes : femaleGenes;
+            List<Gene> shorterGene = maleGenes.Count < femaleGenes.Count ? maleGenes : femaleGenes;
 
-            if (maleGenes.Count < femaleGenes.Count)
+            // for each parent gene add a gene to the child
+            List<Gene> child = new List<Gene>();
+            for (int i = 0; i < longerGene.Count; i++)
             {
-                child.CopyTo(femaleGenes.ToArray());
-                for (int i = 0; i < maleGenes.Count; i++)
+                // If the iterator is even or we're out of short genes
+                if(i % 2== 0 || i >= shorterGene.Count)
                 {
-                    if (!Convert.ToBoolean(i % 2))
-                        child[i] = maleGenes[i];
+                    // take a gene from the longer one
+                    child.Add((Gene)longerGene[i].Clone());
+                }
+                // If odd and there are still genes to take from 
+                else
+                {
+                    // take a gene from the shorter one
+                    child.Add((Gene)shorterGene[i].Clone());
                 }
             }
-            else
-            {
-                child.CopyTo(maleGenes.ToArray());
-                for (int i = 0; i < femaleGenes.Count; i++)
-                {
-                    if (!Convert.ToBoolean(i % 2))
-                        child[i] = femaleGenes[i];
-                }
-            }
+
             return child;
         }
-
-        #endregion
     }
 }

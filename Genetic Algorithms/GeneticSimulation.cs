@@ -40,21 +40,17 @@ namespace GeneticAlgorithms
     /// TODO run until fitness it some amount
     /// TODO logging
     /// TODO dont discard old populations
+    /// TODO Crossover recombinator with random crossover point
+    /// TODO crossover produces two children
     /// </summary>
     /// <typeparam name="Gene">The type of the Gene.</typeparam>
     public class GeneticSimulation<Gene> where Gene: IGene, new()
     {
-        #region Static Members
-
         /// <summary>
         /// A random number provider
         /// </summary>
         protected static Random Randomizer = new Random(DateTime.Now.Millisecond);
         
-        #endregion
-
-        #region Member Data
-
         /// <summary>
         /// The fitness function used to calculate fitness
         /// </summary>
@@ -115,11 +111,7 @@ namespace GeneticAlgorithms
         /// An event to be triggered after each iteration of the simulation
         /// </summary>
         public OnSimulationTurn SimulationTurn;
-
-        #endregion
-
-        #region Constructors
-
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="GeneticSimulation{Gene}"/> class.
         /// </summary>
@@ -161,11 +153,7 @@ namespace GeneticAlgorithms
             // Initialise the simulation
             this.ResetSimulation();
         }
-
-        #endregion
-
-        #region Properties
-
+        
         /// <summary>
         /// Gets the population
         /// </summary>
@@ -360,10 +348,6 @@ namespace GeneticAlgorithms
             }
         }
 
-        #endregion
-
-        #region Member Methods
-
         /// <summary>
         /// Selects the male chromosome from the population
         /// </summary>
@@ -477,7 +461,5 @@ namespace GeneticAlgorithms
                 }
             }
         }
-
-        #endregion
     }
 }

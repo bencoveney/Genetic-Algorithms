@@ -25,28 +25,33 @@ using System.Collections.Generic;
 
 namespace GeneticAlgorithms.ExampleClasses
 {
-    public class CrossoverRecombinator : 
-        IRecombinationProvider
+    /// <summary>
+    /// Produces a single gene list by recombining two parents at their mid-point
+    /// </summary>
+    public class CrossoverRecombinator : IRecombinationProvider
     {
-        #region IRecombinationProvider Member
-
+        /// <summary>
+        /// Recombines two parent gene lists into one child
+        /// </summary>
+        /// <typeparam name="Gene">The gene's type</typeparam>
+        /// <param name="maleGenes">The father's genetic data</param>
+        /// <param name="femaleGenes">The mother's genetic data</param>
+        /// <returns>A child's genetic data</returns>
         public List<Gene> Recombine<Gene>(List<Gene> maleGenes, List<Gene> femaleGenes) where Gene: IGene, new()
         {
+            // Check the genes are the correct length
             if (maleGenes.Count != femaleGenes.Count)
                 throw new GenesIncompatibleException();
-            List<Gene> child = new List<Gene>();
 
             // Caclulate the mid-point
-            // TODO random mid-point
             int middle = maleGenes.Count / 2;
 
-            // Copy over the genes
+            // Copy over the genes into a child
+            List<Gene> child = new List<Gene>();
             maleGenes.GetRange(0, middle).ForEach(x => child.Add((Gene)x.Clone()));
             femaleGenes.GetRange(middle, femaleGenes.Count - middle).ForEach(x => child.Add((Gene)x.Clone()));
 
             return child;
         }
-
-        #endregion
     }
 }

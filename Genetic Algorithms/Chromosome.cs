@@ -46,46 +46,18 @@ namespace GeneticAlgorithms
 
 
         /// <summary>
-        /// Accessor for _fitness
+        /// Initializes a new instance of the <see cref="Chromosome{Gene}"/> class with randomly initialised genes.
         /// </summary>
-        /// <value>
-        /// The fitness.
-        /// </value>
-        public float Fitness
+        /// <param name="geneCount">The number of genes to create within the chromosome</param>
+        public Chromosome(int geneCount)
         {
-            get
-            {
-                return this._fitness;
-            }
-        }
+            // Initialise the gene list
+            this._genes = new List<Gene>(geneCount);
 
-        /// <summary>
-        /// Duplicates a gene from the specified index
-        /// </summary>
-        /// <param name="index">The index of the gene to duplicate</param>
-        public void DuplicateGene(int index)
-        {
-            Gene gene = new Gene();
-            gene = (Gene) this[index].Clone();
-            this._genes.Insert(index, gene);
-        }
-
-        /// <summary>
-        /// Removes a gene from the specified index
-        /// </summary>
-        /// <param name="index">The index of the gene to remove</param>
-        public void DropGene(int index)
-        {
-            this._genes.RemoveAt(index);
-        }
-
-        /// <summary>
-        /// Calculates the chromosome's fitness
-        /// </summary>
-        /// <param name="provider">The fitness function provider to use in the calculation</param>
-        public void computeFitness(IFitnessFunctionProvider<Gene> provider)
-        {
-            this._fitness = provider.ComputeFitness(this._genes);
+            // Populate it with new genes
+            // TODO theres gotta be a better method than a while loop
+            while (this._genes.Count < geneCount)
+                this._genes.Add(new Gene());
         }
 
         /// <summary>
@@ -111,29 +83,39 @@ namespace GeneticAlgorithms
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Chromosome{Gene}"/> class with randomly initialised genes.
+        /// Accessor for _fitness
         /// </summary>
-        /// <param name="geneCount">The number of genes to create within the chromosome</param>
-        public Chromosome(int geneCount)
+        /// <value>
+        /// The fitness.
+        /// </value>
+        public float Fitness
         {
-            // Initialise the gene list
-            this._genes = new List<Gene>(geneCount);
-
-            // Populate it with new genes
-            // TODO theres gotta be a better method than a while loop
-            while (this._genes.Count < geneCount)
-                this._genes.Add(new Gene());
+            get
+            {
+                return this._fitness;
+            }
         }
 
         /// <summary>
-        /// Recombines this chromosome with a specified partner chromosome
+        /// Gets the length of the chromosome
         /// </summary>
-        /// <param name="partner">The partner chromosome to combine with</param>
-        /// <param name="recombinator">The recombination provider.</param>
-        /// <returns>The chromosome resulting from the re-combination</returns>
-        public Chromosome<Gene> Recombine(Chromosome<Gene> partner, IRecombinationProvider recombinator)
+        /// <value>
+        /// The gene count.
+        /// </value>
+        public int GeneCount
         {
-            return new Chromosome<Gene>(recombinator.Recombine(_genes, partner._genes));
+            get
+            {
+                return this._genes.Count;
+            }
+        }
+
+        public List<Gene> Genes
+        {
+            get
+            {
+                return this._genes;
+            }
         }
 
         /// <summary>
@@ -148,7 +130,7 @@ namespace GeneticAlgorithms
         {
             get
             {
-                return (Gene) _genes[index];
+                return (Gene)_genes[index];
             }
             set
             {
@@ -157,27 +139,55 @@ namespace GeneticAlgorithms
         }
 
         /// <summary>
-        /// Gets the length of the chromosome
+        /// Compares the current object with another object of the same type to facilitate sorting of chromosomes
         /// </summary>
-        /// <value>
-        /// The gene count.
-        /// </value>
-        public int GeneCount
+        /// <param name="other">An object to compare with this object.</param>
+        /// <returns>
+        /// A value that indicates the relative order of the objects being compared. The return value has the following meanings: Value Meaning Less than zero This object is less than the <paramref name="other" /> parameter.Zero This object is equal to <paramref name="other" />. Greater than zero This object is greater than <paramref name="other" />.
+        /// </returns>
+        public int CompareTo(Chromosome<Gene> other)
         {
-            get
-            {
-                return this._genes.Count; 
-            }
+            return this._fitness.CompareTo(other._fitness);
         }
 
-        public List<Gene> Genes
+        /// <summary>
+        /// Calculates the chromosome's fitness
+        /// </summary>
+        /// <param name="provider">The fitness function provider to use in the calculation</param>
+        public void computeFitness(IFitnessFunctionProvider<Gene> provider)
         {
-            get
-            {
-                return this._genes;
-            }
+            this._fitness = provider.ComputeFitness(this._genes);
         }
 
+        /// <summary>
+        /// Removes a gene from the specified index
+        /// </summary>
+        /// <param name="index">The index of the gene to remove</param>
+        public void DropGene(int index)
+        {
+            this._genes.RemoveAt(index);
+        }
+
+        /// <summary>
+        /// Duplicates a gene from the specified index
+        /// </summary>
+        /// <param name="index">The index of the gene to duplicate</param>
+        public void DuplicateGene(int index)
+        {
+            Gene gene = new Gene();
+            gene = (Gene) this[index].Clone();
+            this._genes.Insert(index, gene);
+        }
+        /// <summary>
+        /// Recombines this chromosome with a specified partner chromosome
+        /// </summary>
+        /// <param name="partner">The partner chromosome to combine with</param>
+        /// <param name="recombinator">The recombination provider.</param>
+        /// <returns>The chromosome resulting from the re-combination</returns>
+        public Chromosome<Gene> Recombine(Chromosome<Gene> partner, IRecombinationProvider recombinator)
+        {
+            return new Chromosome<Gene>(recombinator.Recombine(_genes, partner._genes));
+        }
         /// <summary>
         /// Returns a <see cref="System.String" /> that represents this instance.
         /// </summary>
@@ -192,18 +202,6 @@ namespace GeneticAlgorithms
                 resultString += gene.ToString() + " ";
             }
             return resultString;
-        }
-
-        /// <summary>
-        /// Compares the current object with another object of the same type to facilitate sorting of chromosomes
-        /// </summary>
-        /// <param name="other">An object to compare with this object.</param>
-        /// <returns>
-        /// A value that indicates the relative order of the objects being compared. The return value has the following meanings: Value Meaning Less than zero This object is less than the <paramref name="other" /> parameter.Zero This object is equal to <paramref name="other" />. Greater than zero This object is greater than <paramref name="other" />.
-        /// </returns>
-        public int CompareTo(Chromosome<Gene> other)
-        {
-            return this._fitness.CompareTo(other._fitness);
         }
     }
 }
