@@ -37,6 +37,9 @@ namespace GeneticAlgorithms
     /// TODO ensure cloning
     /// TODO mutation constants and passed as params
     /// TODO crossover as a probability
+    /// TODO run until fitness it some amount
+    /// TODO logging
+    /// TODO dont discard old populations
     /// </summary>
     /// <typeparam name="Gene">The type of the Gene.</typeparam>
     public class GeneticSimulation<Gene> where Gene: IGene, new()
