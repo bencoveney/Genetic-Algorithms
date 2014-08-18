@@ -17,3 +17,4 @@ A big ol' list of things to do on this project:
 * should IFitnessFunctionProvider be passed a List<Gene> or chromosome?
 * specify IGene.Equals as part of IEquatable
 * should duplication/dropping of genes be part of a seperate variable length chromosome implementation?
+* Tests
