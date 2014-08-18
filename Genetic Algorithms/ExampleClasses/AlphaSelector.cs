@@ -33,12 +33,8 @@ namespace GeneticAlgorithms.ExampleClasses
     public class AlphaSelector : ISelectionProvider
     {
         /// <summary>
-        /// Selects the absolute best chromosome from a population
+        /// See interface documentation
         /// </summary>
-        /// <typeparam name="Chromosome">The type of the chromosome.</typeparam>
-        /// <param name="population">The population.</param>
-        /// <param name="totalFitness">The total fitness.</param>
-        /// <returns>The selected chromosome</returns>
         public Chromosome Select<Chromosome>(List<Chromosome> population, float totalFitness) where Chromosome: IChromosome
         {
             // Return the chromosome with the highest fitness

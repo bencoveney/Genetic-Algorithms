@@ -25,59 +25,114 @@ using System;
 
 namespace GeneticAlgorithms.ExampleClasses
 {
-    public class IntGene :
-        IGene
+    /// <summary>
+    /// A gene with an integer value
+    /// </summary>
+    public class IntGene : IGene
     {
-        public static int MaxValue = 100;
-        private static Random randomizer = null;
-        protected int value;
+        /// <summary>
+        /// The highest value this IntGene can represent
+        /// </summary>
+        public const int MaxValue = 100;
 
+        /// <summary>
+        /// A random number provider
+        /// </summary>
+        private static Random Randomizer = new Random(DateTime.Now.Millisecond);
+
+        /// <summary>
+        /// The value
+        /// </summary>
+        protected int _value;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IntGene"/> class with a given value.
+        /// </summary>
+        /// <param name="value">The value.</param>
         public IntGene(int value)
         {
-            if (IntGene.randomizer == null)
-                IntGene.randomizer = new Random();
-            this.value = value;
+            this._value = value;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IntGene"/> class with a random value.
+        /// </summary>
         public IntGene()
         {
-            if (IntGene.randomizer == null)
-                IntGene.randomizer = new Random();
             this.Mutate();
         }
 
+        /// <summary>
+        /// Returns a <see cref="System.String" /> that represents this instance.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="System.String" /> that represents this instance.
+        /// </returns>
         public override string ToString()
         {
-            return value.ToString();
+            return _value.ToString();
+        }
+
+        /// <summary>
+        /// Gets the value.
+        /// </summary>
+        /// <value>
+        /// The value.
+        /// </value>
+        public int Value
+        {
+            get
+            {
+                return this._value;
+            }
         }
     
-        #region IGene Member
-
+        /// <summary>
+        /// See interface documentation
+        /// </summary>
         public void Mutate()
         {
-            this.value = randomizer.Next() % IntGene.MaxValue;
+            this._value = Randomizer.Next() % IntGene.MaxValue;
         }
 
-        #endregion
-
+        /// <summary>
+        /// Performs an implicit conversion from <see cref="System.Int32"/> to <see cref="IntGene"/>.
+        /// </summary>
+        /// <param name="other">The object to convert.</param>
+        /// <returns>
+        /// The result of the conversion.
+        /// </returns>
         public static implicit operator IntGene(int other)
         {
             return new IntGene(other);
         }
 
+        /// <summary>
+        /// Performs an implicit conversion from <see cref="IntGene"/> to <see cref="System.Int32"/>.
+        /// </summary>
+        /// <param name="other">The object to convert.</param>
+        /// <returns>
+        /// The result of the conversion.
+        /// </returns>
         public static implicit operator int(IntGene other)
         {
-            return other.value;
+            return other._value;
         }
 
+        /// <summary>
+        /// See interface documentation
+        /// </summary>
         public object Clone()
         {
-            return new IntGene(this.value);
+            return new IntGene(this._value);
         }
 
+        /// <summary>
+        /// See interface documentation
+        /// </summary>
         new public bool Equals(object o)
         {
-            return (o as IntGene).value == this.value;
+            return (o as IntGene)._value == this._value;
         }
     }
 

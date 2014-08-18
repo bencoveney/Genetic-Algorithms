@@ -32,12 +32,8 @@ namespace GeneticAlgorithms.ExampleClasses
     public class AsymmetricZipRecombinator : IRecombinationProvider
     {
         /// <summary>
-        /// Recombines two parent gene lists into one child
+        /// See interface documentation
         /// </summary>
-        /// <typeparam name="Gene">The gene's type</typeparam>
-        /// <param name="maleGenes">The father's genetic data</param>
-        /// <param name="femaleGenes">The mother's genetic data</param>
-        /// <returns>A child's genetic data</returns>
         public List<Gene> Recombine<Gene>(List<Gene> maleGenes, List<Gene> femaleGenes) where Gene: IGene, new()
         {
             // Calculate which parent has a longer gene

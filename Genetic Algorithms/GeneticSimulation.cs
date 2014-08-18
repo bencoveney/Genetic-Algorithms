@@ -33,19 +33,6 @@ namespace GeneticAlgorithms
 
     /// <summary>
     /// An instance of a Genetic Simulation
-    /// TODO remove CopyTos
-    /// TODO ensure cloning
-    /// TODO mutation constants and passed as params
-    /// TODO crossover as a probability
-    /// TODO run until fitness it some amount
-    /// TODO logging
-    /// TODO dont discard old populations
-    /// TODO Crossover recombinator with random crossover point
-    /// TODO crossover produces two children
-    /// TODO refactor List<chromosome> into a population class so that totalFitness doesnt have to be passed around
-    /// TODO should IFitnessFunctionProvider be passed a List<Gene> or chromosome?
-    /// TODO specify IGene.Equals as part of IEquatable
-    /// TODO should duplication/dropping of genes be part of a seperate variable length chromosome implementation?
     /// </summary>
     /// <typeparam name="Gene">The type of the Gene.</typeparam>
     public class GeneticSimulation<Gene> where Gene: IGene, new()

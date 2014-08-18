@@ -25,67 +25,110 @@ using System;
 
 namespace GeneticAlgorithms.ExampleClasses
 {
-    public class BoolGene :
-        IGene
+    /// <summary>
+    /// A gene with an boolean value
+    /// </summary>
+    public class BoolGene : IGene
     {
+        /// <summary>
+        /// A random number provider
+        /// </summary>
         private static Random randomizer = new Random(DateTime.Now.Millisecond);
-        protected bool value;
 
+        /// <summary>
+        /// The value
+        /// </summary>
+        protected bool _value;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BoolGene"/> class with the given value
+        /// </summary>
+        /// <param name="value">The value.</param>
         public BoolGene(bool value)
         {
-            this.value = value;
+            this._value = value;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BoolGene"/> class with a random value
+        /// </summary>
         public BoolGene()
         {
-            this.value = Convert.ToBoolean(randomizer.Next(0, 2));
+            this._value = Convert.ToBoolean(randomizer.Next(0, 2));
         }
 
+        /// <summary>
+        /// Returns a <see cref="System.String" /> that represents this instance.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="System.String" /> that represents this instance.
+        /// </returns>
         public override string ToString()
         {
-            if (this.value)
+            if (this._value)
                 return "1";
             else
                 return "0";
             //return value.ToString();
         }
 
+        /// <summary>
+        /// The value this BoolGene represents
+        /// </summary>
         public bool Value
         {
             get
             {
-                return this.value;
+                return this._value;
             }
         }
-    
-        #region IGene Member
-
+        /// <summary>
+        /// See interface documentation
+        /// </summary>
         public void Mutate()
         {
-            this.value = !this.value;
+            this._value = !this._value;
             //this.value = Convert.ToBoolean(randomizer.Next(0, 2));
         }
 
-        #endregion
-
+        /// <summary>
+        /// Performs an implicit conversion from <see cref="System.Boolean"/> to <see cref="BoolGene"/>.
+        /// </summary>
+        /// <param name="other">The object to convert.</param>
+        /// <returns>
+        /// The result of the conversion.
+        /// </returns>
         public static implicit operator BoolGene(bool other)
         {
             return new BoolGene(other);
         }
 
+        /// <summary>
+        /// Performs an implicit conversion from <see cref="BoolGene"/> to <see cref="System.Boolean"/>.
+        /// </summary>
+        /// <param name="other">The object to convert.</param>
+        /// <returns>
+        /// The result of the conversion.
+        /// </returns>
         public static implicit operator bool(BoolGene other)
         {
-            return other.value;
+            return other._value;
         }
 
+        /// <summary>
+        /// See interface documentation
+        /// </summary>
         public object Clone()
         {
-            return new BoolGene(this.value);
+            return new BoolGene(this._value);
         }
 
+        /// <summary>
+        /// See interface documentation
+        /// </summary>
         new public bool Equals(object o)
         {
-            return (o as BoolGene).value == this.value;
+            return (o as BoolGene)._value == this._value;
         }
     }
 

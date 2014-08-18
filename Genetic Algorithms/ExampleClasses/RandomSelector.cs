@@ -26,23 +26,22 @@ using System.Collections.Generic;
 
 namespace GeneticAlgorithms.ExampleClasses
 {
+    /// <summary>
+    /// Selects an individual from the population completely randomly
+    /// </summary>
     public class RandomSelector : ISelectionProvider
     {
-        #region ISelectionProvider Member
+        /// <summary>
+        /// Random number provider
+        /// </summary>
+        static protected Random randomizer = new Random(DateTime.Now.Millisecond);
 
-        static protected Random randomizer;
-
-        public RandomSelector()
-        {
-            if (RandomSelector.randomizer == null)
-                RandomSelector.randomizer = new Random();
-        }
-
+        /// <summary>
+        /// See interface documentation
+        /// </summary>
         public Chromosome Select<Chromosome>(List<Chromosome> population, float totalFitness) where Chromosome : IChromosome
         {
             return population[RandomSelector.randomizer.Next(0, population.Count)];
         }
-
-        #endregion
     }
 }

@@ -1,4 +1,5 @@
-﻿/*  Copyright (c) 2009 Daniel Baulig
+﻿
+/*  Copyright (c) 2009 Daniel Baulig
  *
  *  This file is part of the Genetic Algorithms library.
  *
@@ -21,28 +22,25 @@
  *  If you wish to donate, please have a look at my Amazon Wishlist:
  *  http://www.amazon.de/wishlist/1GWSB78PYVFBQ
  */
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace GeneticAlgorithms.ExampleClasses
 {
+    /// <summary>
+    /// Calculates the fitness of a bool gene by summing all "true" genes
+    /// </summary>
     public class BoolSumFitness : IFitnessFunctionProvider<BoolGene>
     {
-        #region IFitnessFunctionProvider Member
-
+        /// <summary>
+        /// See interface documentation
+        /// </summary>
         public float ComputeFitness(List<BoolGene> genes)
         {
-            float sum = 0;
-            foreach(BoolGene gene in genes)
-            {
-                if (gene == true)
-                    sum += 1;
-            }
-            return sum;
+            // Return the sum of all genes
+            return genes.Sum(x => Convert.ToInt32(x));
         }
-
-        #endregion
-
-
     }
 }

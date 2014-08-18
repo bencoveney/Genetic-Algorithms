@@ -25,13 +25,6 @@
 using System.Collections.Generic;
 namespace GeneticAlgorithms
 {
-    /* IChromosome
-     * 
-     * IChromosome muss von allen Chromosomklassen implementiert werden.
-     * - IChromosome.Fitness liefert die Fitness des Chromosoms zurück
-     * - IChromosome.DuplicateGene dupliziert das Gen an der durch index bestimmten Position im Chromosom
-     * - IChromosome.DropGene entfernt das Gen an der durch index bestimmten Position im Chromosom
-     */
     /// <summary>
     /// Defines a single individual's collection of genetic data
     /// </summary>

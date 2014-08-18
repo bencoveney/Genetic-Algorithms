@@ -27,29 +27,39 @@ using System.Collections.Generic;
 
 namespace GeneticAlgorithms.ExampleClasses
 {
+    /// <summary>
+    /// Selects a random chromosome from the population with their chance of selection weighted by fitness
+    /// </summary>
     public class PieCakeSelector : ISelectionProvider
     {
-        private static Random randomizer;
+        /// <summary>
+        /// Random number provider
+        /// </summary>
+        private static Random randomizer = new Random(DateTime.Now.Millisecond);
 
-        public PieCakeSelector()
-        {
-            if (randomizer == null)
-                randomizer = new Random();
-        }
-
+        /// <summary>
+        /// See interface documentation
+        /// </summary>
         public Chromosome Select<Chromosome>(List<Chromosome> population, float totalFitness) where Chromosome: IChromosome
         {
-            float selectionPoint = Convert.ToSingle(PieCakeSelector.randomizer.NextDouble() * totalFitness);
+            // Calculate how far round the pie to select
+            double selectionPoint = PieCakeSelector.randomizer.NextDouble() * totalFitness;
+
             int index = 0;
             try
             {
+                // While there is still distance round the pie to travel
                 while (selectionPoint > (population[index] as IChromosome).Fitness)
+                    // move to the next chromosome 
+                    // this is done by skipping the current one and subtracting it's fitness from the distance to travel
                     selectionPoint -= (population[index++] as IChromosome).Fitness;
             }
-            catch (ArgumentOutOfRangeException ignore)
-            {   // kann evtl. aufgrund von numerischen Effekten auftreten, wenn wird letztes Chromosome ausgewählt
+            catch (ArgumentOutOfRangeException)
+            {   
+                // Can possibly occur due to numerical effects, when last chromosome selected
                 index--;
             }
+
             return population[index];
         }
     }
