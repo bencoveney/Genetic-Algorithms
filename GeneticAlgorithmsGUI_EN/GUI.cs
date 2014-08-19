@@ -180,7 +180,7 @@ namespace GeneticAlgorithmsGUI_EN
                 if (Convert.ToInt32((sender as TextBox).Text) < 0)
                     throw new FormatException();
             }
-            catch (FormatException exception)
+            catch (FormatException)
             {
                 MessageBox.Show("No positive integer!");
                 (sender as TextBox).SelectAll();
@@ -200,7 +200,7 @@ namespace GeneticAlgorithmsGUI_EN
                 if (Convert.ToDouble((sender as TextBox).Text) < 0)
                     throw new FormatException();
             }
-            catch (FormatException exception)
+            catch (FormatException)
             {
                 MessageBox.Show("No positive floating point value!");
                 (sender as TextBox).SelectAll();

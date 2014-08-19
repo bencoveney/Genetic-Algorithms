@@ -420,7 +420,7 @@ namespace GeneticAlgorithms
                 }
 
                 // Handle incompatible genes
-                catch (GenesIncompatibleException ignore)
+                catch (GenesIncompatibleException)
                 {
                     // TODO do something
                 }
