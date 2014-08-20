@@ -39,7 +39,7 @@ namespace GeneticAlgorithms.ExampleClasses
         /// <summary>
         /// See interface documentation
         /// </summary>
-        public Chromosome Select<Chromosome>(List<Chromosome> population, float totalFitness) where Chromosome : IChromosome
+        public Chromosome<Gene> Select<Gene>(Population<Gene> population) where Gene : IGene, new()
         {
             return population[RandomSelector.randomizer.Next(0, population.Count)];
         }

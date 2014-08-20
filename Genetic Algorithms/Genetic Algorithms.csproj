@@ -75,6 +75,7 @@
     <Compile Include="ExampleClasses\Mondlandungs\Raumfahrer.cs" />
     <Compile Include="ExampleClasses\Mondlandungs\Raumschiff.cs" />
     <Compile Include="ExampleClasses\UniformMultiPointCrossoverRecombinator.cs" />
+    <Compile Include="Population.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -91,15 +92,12 @@
     <Compile Include="ExampleClasses\PieCakeSelector.cs" />
     <Compile Include="ExampleClasses\RandomSelector.cs" />
     <Compile Include="GeneticSimulation.cs" />
-    <Compile Include="IChromosome.cs" />
-    <Compile Include="IFitnessFunctionProvider.cs" />
-    <Compile Include="IGene.cs" />
-    <Compile Include="IRecombinationProvider.cs" />
-    <Compile Include="ISelectionProvider.cs" />
+    <Compile Include="Interfaces\IChromosome.cs" />
+    <Compile Include="Interfaces\IFitnessFunctionProvider.cs" />
+    <Compile Include="Interfaces\IGene.cs" />
+    <Compile Include="Interfaces\IRecombinationProvider.cs" />
+    <Compile Include="Interfaces\ISelectionProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="COPYING.txt" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

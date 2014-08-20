@@ -40,10 +40,10 @@ namespace GeneticAlgorithms.ExampleClasses
         /// <summary>
         /// See interface documentation
         /// </summary>
-        public Chromosome Select<Chromosome>(List<Chromosome> population, float totalFitness) where Chromosome: IChromosome
+        public Chromosome<Gene> Select<Gene>(Population<Gene> population) where Gene : IGene, new()
         {
             // Calculate how far round the pie to select
-            double selectionPoint = PieCakeSelector.randomizer.NextDouble() * totalFitness;
+            double selectionPoint = PieCakeSelector.randomizer.NextDouble() * population.TotalFitness;
 
             int index = 0;
             try

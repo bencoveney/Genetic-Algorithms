@@ -94,9 +94,8 @@ namespace GeneticAlgorithms
 
         /// <summary>
         /// The population of Chromosomes
-        /// TODO to list
         /// </summary>
-        protected List<Chromosome<Gene>> _population;
+        protected Population<Gene> _population;
 
         /// <summary>
         /// An event to be triggered after each iteration of the simulation
@@ -148,7 +147,7 @@ namespace GeneticAlgorithms
         /// <summary>
         /// Gets the population
         /// </summary>
-        public List<Chromosome<Gene>> Population
+        public Population<Gene> Population
         {
             get
             {
@@ -194,76 +193,6 @@ namespace GeneticAlgorithms
             get
             {
                 return this._defaultChromosomeLength;
-            }
-        }
-
-        /// <summary>
-        /// Gets the average length of the chromosome.
-        /// </summary>
-        /// <value>
-        /// The average length of the chromosome.
-        /// </value>
-        public float AverageChromosomeLength
-        {
-            get
-            {
-                return _population.Average(x => x.Fitness);
-            }
-        }
-
-        /// <summary>
-        /// Gets the most successful individual.
-        /// </summary>
-        /// <value>
-        /// The most successful individual.
-        /// </value>
-        public Chromosome<Gene> MostSuccessfulIndividual
-        {
-            get
-            {
-                return _population.OrderByDescending(x => x.Fitness).First();
-            }
-        }
-
-        /// <summary>
-        /// Gets the least successful individual.
-        /// </summary>
-        /// <value>
-        /// The least successful individual.
-        /// </value>
-        public Chromosome<Gene> LeastSuccessfulIndividual
-        {
-            get
-            {
-                return _population.OrderByDescending(x => x.Fitness).Last();
-            }
-        }
-
-        /// <summary>
-        /// Gets the total fitness.
-        /// </summary>
-        /// <value>
-        /// The total fitness.
-        /// </value>
-        public float TotalFitness
-        {
-            get
-            {
-                return _population.Sum(x => x.Fitness);
-            }
-        }
-
-        /// <summary>
-        /// Gets the average fitness.
-        /// </summary>
-        /// <value>
-        /// The average fitness.
-        /// </value>
-        public float AverageFitness
-        {
-            get
-            {
-                return TotalFitness / _populationSize;
             }
         }
 
@@ -345,7 +274,7 @@ namespace GeneticAlgorithms
         /// <returns></returns>
         protected Chromosome<Gene> selectMaleChromosome()
         {
-            return this._maleSelector.Select(this._population, this.TotalFitness);
+            return this._maleSelector.Select(this._population);
         }
 
         /// <summary>
@@ -354,7 +283,7 @@ namespace GeneticAlgorithms
         /// <returns></returns>
         protected Chromosome<Gene> selectFemaleChromosome()
         {
-            return this._femaleSelector.Select(this._population, this.TotalFitness);
+            return this._femaleSelector.Select(this._population);
         }
 
         /// <summary>
@@ -371,15 +300,7 @@ namespace GeneticAlgorithms
         virtual public void ResetSimulation()
         {
             // Reset the population
-            _population = new List<Chromosome<Gene>>(this._populationSize);
-
-            // Fill the population with individuals
-            while (this._population.Count < this._populationSize)
-            {
-                Chromosome<Gene> chromosome = new Chromosome<Gene>(this._defaultChromosomeLength);
-                chromosome.computeFitness(this._fitnessCalculator);
-                this._population.Add(chromosome);
-            }
+            _population = new Population<Gene>(this._populationSize, _defaultChromosomeLength);
         }
 
         /// <summary>
@@ -426,7 +347,7 @@ namespace GeneticAlgorithms
                 }
             }
 
-            this._population = newPopulation;
+            this._population = new Population<Gene>(newPopulation);
 
             if (SimulationTurn != null)
                 SimulationTurn(this, EventArgs.Empty);

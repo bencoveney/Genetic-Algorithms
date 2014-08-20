@@ -38,6 +38,6 @@ namespace GeneticAlgorithms
         /// <param name="population">The population.</param>
         /// <param name="totalFitness">The total fitness.</param>
         /// <returns>The selected chromosome</returns>
-        Chromosome Select<Chromosome>(List<Chromosome> population, float totalFitness) where Chromosome: IChromosome;
+        Chromosome<Gene> Select<Gene>(Population<Gene> population) where Gene : IGene, new();
     }
 }

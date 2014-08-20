@@ -44,7 +44,6 @@ namespace GeneticAlgorithms
         /// </summary>
         private float _fitness;
 
-
         /// <summary>
         /// Initializes a new instance of the <see cref="Chromosome{Gene}"/> class with randomly initialised genes.
         /// </summary>
@@ -55,7 +54,6 @@ namespace GeneticAlgorithms
             this._genes = new List<Gene>(geneCount);
 
             // Populate it with new genes
-            // TODO theres gotta be a better method than a while loop
             while (this._genes.Count < geneCount)
                 this._genes.Add(new Gene());
         }
@@ -110,6 +108,12 @@ namespace GeneticAlgorithms
             }
         }
 
+        /// <summary>
+        /// Gets the genes.
+        /// </summary>
+        /// <value>
+        /// The genes.
+        /// </value>
         public List<Gene> Genes
         {
             get
@@ -178,6 +182,7 @@ namespace GeneticAlgorithms
             gene = (Gene) this[index].Clone();
             this._genes.Insert(index, gene);
         }
+
         /// <summary>
         /// Recombines this chromosome with a specified partner chromosome
         /// </summary>
@@ -188,6 +193,7 @@ namespace GeneticAlgorithms
         {
             return new Chromosome<Gene>(recombinator.Recombine(_genes, partner._genes));
         }
+
         /// <summary>
         /// Returns a <see cref="System.String" /> that represents this instance.
         /// </summary>
