@@ -1,4 +1,6 @@
-﻿using System;
+﻿using GeneticAlgorithms;
+using GeneticAlgorithms.ExampleClasses;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,9 +16,17 @@ namespace GeneticAlgorithmsUI
         [STAThread]
         static void Main()
         {
+            // borrowed from GA example boolstring
+            GeneticSimulation<BoolGene> geneticSimulation = new GeneticSimulation<BoolGene>(
+                10,
+                10,
+                new BoolSumFitness(),
+                new CrossoverRecombinator(),
+                new AlphaSelector());
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new GeneticAlgorithmsUI());
+            Application.Run(new GeneticAlgorithmsUI<BoolGene>(geneticSimulation));
         }
     }
 }

@@ -1,6 +1,7 @@
-﻿namespace GeneticAlgorithmsUI
+﻿using System.Windows.Forms.DataVisualization.Charting;
+namespace GeneticAlgorithmsUI
 {
-    partial class GeneticAlgorithmsUI
+    partial class GeneticAlgorithmsUI<Gene>
     {
         /// <summary>
         /// Required designer variable.
@@ -28,13 +29,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend5 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             this.configurationPanel = new System.Windows.Forms.Panel();
             this.simulationControlsGroup = new System.Windows.Forms.GroupBox();
             this.numberOfGenerationsLabel = new System.Windows.Forms.Label();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.numberOfGenerationsNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.simulateMultipleButton = new System.Windows.Forms.Button();
             this.simulateSingleButton = new System.Windows.Forms.Button();
             this.configurationGroup = new System.Windows.Forms.GroupBox();
@@ -45,7 +45,7 @@
             this.fitnessGraph = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.configurationPanel.SuspendLayout();
             this.simulationControlsGroup.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numberOfGenerationsNumericUpDown)).BeginInit();
             this.configurationGroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             this.splitContainer.Panel1.SuspendLayout();
@@ -68,7 +68,7 @@
             // simulationControlsGroup
             // 
             this.simulationControlsGroup.Controls.Add(this.numberOfGenerationsLabel);
-            this.simulationControlsGroup.Controls.Add(this.numericUpDown1);
+            this.simulationControlsGroup.Controls.Add(this.numberOfGenerationsNumericUpDown);
             this.simulationControlsGroup.Controls.Add(this.simulateMultipleButton);
             this.simulationControlsGroup.Controls.Add(this.simulateSingleButton);
             this.simulationControlsGroup.Location = new System.Drawing.Point(171, 12);
@@ -87,23 +87,23 @@
             this.numberOfGenerationsLabel.TabIndex = 3;
             this.numberOfGenerationsLabel.Text = "Number To Run";
             // 
-            // numericUpDown1
+            // numberOfGenerationsNumericUpDown
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(319, 68);
-            this.numericUpDown1.Maximum = new decimal(new int[] {
+            this.numberOfGenerationsNumericUpDown.Location = new System.Drawing.Point(319, 68);
+            this.numberOfGenerationsNumericUpDown.Maximum = new decimal(new int[] {
             1000000,
             0,
             0,
             0});
-            this.numericUpDown1.Minimum = new decimal(new int[] {
+            this.numberOfGenerationsNumericUpDown.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(59, 22);
-            this.numericUpDown1.TabIndex = 2;
-            this.numericUpDown1.Value = new decimal(new int[] {
+            this.numberOfGenerationsNumericUpDown.Name = "numberOfGenerationsNumericUpDown";
+            this.numberOfGenerationsNumericUpDown.Size = new System.Drawing.Size(59, 22);
+            this.numberOfGenerationsNumericUpDown.TabIndex = 2;
+            this.numberOfGenerationsNumericUpDown.Value = new decimal(new int[] {
             1,
             0,
             0,
@@ -179,6 +179,7 @@
             // 
             // simulationDataGridView
             // 
+            this.simulationDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.simulationDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.simulationDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.simulationDataGridView.Location = new System.Drawing.Point(0, 0);
@@ -189,17 +190,14 @@
             // 
             // fitnessGraph
             // 
-            chartArea5.Name = "ChartArea1";
-            this.fitnessGraph.ChartAreas.Add(chartArea5);
+            chartArea2.Name = "Fitness Chart Area";
+            this.fitnessGraph.ChartAreas.Add(chartArea2);
             this.fitnessGraph.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend5.Name = "Legend1";
-            this.fitnessGraph.Legends.Add(legend5);
+            legend2.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom;
+            legend2.Name = "Fitness Lines";
+            this.fitnessGraph.Legends.Add(legend2);
             this.fitnessGraph.Location = new System.Drawing.Point(0, 0);
             this.fitnessGraph.Name = "fitnessGraph";
-            series5.ChartArea = "ChartArea1";
-            series5.Legend = "Legend1";
-            series5.Name = "Series1";
-            this.fitnessGraph.Series.Add(series5);
             this.fitnessGraph.Size = new System.Drawing.Size(566, 507);
             this.fitnessGraph.TabIndex = 0;
             this.fitnessGraph.Text = "chart1";
@@ -216,7 +214,7 @@
             this.configurationPanel.ResumeLayout(false);
             this.simulationControlsGroup.ResumeLayout(false);
             this.simulationControlsGroup.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numberOfGenerationsNumericUpDown)).EndInit();
             this.configurationGroup.ResumeLayout(false);
             this.splitContainer.Panel1.ResumeLayout(false);
             this.splitContainer.Panel2.ResumeLayout(false);
@@ -240,7 +238,7 @@
         private System.Windows.Forms.Button simulateSingleButton;
         private System.Windows.Forms.GroupBox configurationGroup;
         private System.Windows.Forms.Label numberOfGenerationsLabel;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.NumericUpDown numberOfGenerationsNumericUpDown;
         private System.Windows.Forms.Button simulateMultipleButton;
     }
 }

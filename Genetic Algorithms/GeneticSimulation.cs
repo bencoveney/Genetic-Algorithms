@@ -99,6 +99,11 @@ namespace GeneticAlgorithms
         protected List<Chromosome<Gene>> _population;
 
         /// <summary>
+        /// The amount of generations which have been created so far
+        /// </summary>
+        private int _generationsCreated;
+
+        /// <summary>
         /// An event to be triggered after each iteration of the simulation
         /// </summary>
         public OnSimulationTurn SimulationTurn;
@@ -304,6 +309,17 @@ namespace GeneticAlgorithms
         }
 
         /// <summary>
+        /// Gets the number of generations which have been created
+        /// </summary>
+        /// <value>
+        /// The number of generations
+        /// </value>
+        public int GenerationsCreated
+        {
+            get { return _generationsCreated; }
+        }
+
+        /// <summary>
         /// Gets or sets the fitness computer.
         /// </summary>
         /// <value>
@@ -372,6 +388,7 @@ namespace GeneticAlgorithms
         {
             // Reset the population
             _population = new List<Chromosome<Gene>>(this._populationSize);
+            _generationsCreated = 1;
 
             // Fill the population with individuals
             while (this._population.Count < this._populationSize)
@@ -427,6 +444,7 @@ namespace GeneticAlgorithms
             }
 
             this._population = newPopulation;
+            _generationsCreated = 1;
 
             if (SimulationTurn != null)
                 SimulationTurn(this, EventArgs.Empty);
