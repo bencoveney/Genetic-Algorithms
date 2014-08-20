@@ -1,7 +1,5 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Genetic Algorithms", "Genetic Algorithms\Genetic Algorithms.csproj", "{6E92618B-EE42-4427-8924-F5FA675B1735}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Genetic Algorithms Test", "Genetic Algorithms Test\Genetic Algorithms Test.csproj", "{1E5B7DF8-7895-4284-86FE-ACAD38FC5C98}"
@@ -11,6 +9,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeneticAlgorithmsGUI_EN", "GeneticAlgorithmsGUI_EN\GeneticAlgorithmsGUI_EN.csproj", "{D718E6ED-A75F-4CA6-BA40-7323EBAE5460}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeneticAlgorithmsExample_BoolStrings", "GeneticAlgorithmsExample_BoolStrings\GeneticAlgorithmsExample_BoolStrings.csproj", "{31687AA2-3D5E-4A45-AB03-83C46D204325}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeneticAlgorithmsUI", "GeneticAlgorithmsUI\GeneticAlgorithmsUI.csproj", "{A0C2A333-9D61-447B-89BE-256F058D936F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,6 +38,10 @@ Global
 		{31687AA2-3D5E-4A45-AB03-83C46D204325}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{31687AA2-3D5E-4A45-AB03-83C46D204325}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{31687AA2-3D5E-4A45-AB03-83C46D204325}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0C2A333-9D61-447B-89BE-256F058D936F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0C2A333-9D61-447B-89BE-256F058D936F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0C2A333-9D61-447B-89BE-256F058D936F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0C2A333-9D61-447B-89BE-256F058D936F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

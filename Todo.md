@@ -19,3 +19,4 @@ A big ol' list of things to do on this project:
 * should duplication/dropping of genes be part of a seperate variable length chromosome implementation?
 * Tests
 * convert fitness from float to double
+* Return IEnumerables instead of lists

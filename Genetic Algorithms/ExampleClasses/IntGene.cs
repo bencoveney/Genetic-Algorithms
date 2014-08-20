@@ -33,7 +33,7 @@ namespace GeneticAlgorithms.ExampleClasses
         /// <summary>
         /// The highest value this IntGene can represent
         /// </summary>
-        public const int MaxValue = 100;
+        public static int MaxValue = 100;
 
         /// <summary>
         /// A random number provider
