@@ -35,10 +35,10 @@ namespace GeneticAlgorithms.ExampleClasses
         /// <summary>
         /// See interface documentation
         /// </summary>
-        public Chromosome Select<Chromosome>(List<Chromosome> population, float totalFitness) where Chromosome: IChromosome
+        public Chromosome<Gene> Select<Gene>(Population<Gene> population) where Gene : IGene, new()
         {
             // Return the chromosome with the highest fitness
-            return population.OrderByDescending(x => x.Fitness).First();
+            return population.BestChromosome;
         }
     }
 }

@@ -94,9 +94,8 @@ namespace GeneticAlgorithms
 
         /// <summary>
         /// The population of Chromosomes
-        /// TODO to list
         /// </summary>
-        protected List<Chromosome<Gene>> _population;
+        protected Population<Gene> _population;
 
         /// <summary>
         /// The amount of generations which have been created so far
@@ -153,7 +152,7 @@ namespace GeneticAlgorithms
         /// <summary>
         /// Gets the population
         /// </summary>
-        public List<Chromosome<Gene>> Population
+        public Population<Gene> Population
         {
             get
             {
@@ -199,76 +198,6 @@ namespace GeneticAlgorithms
             get
             {
                 return this._defaultChromosomeLength;
-            }
-        }
-
-        /// <summary>
-        /// Gets the average length of the chromosome.
-        /// </summary>
-        /// <value>
-        /// The average length of the chromosome.
-        /// </value>
-        public float AverageChromosomeLength
-        {
-            get
-            {
-                return _population.Average(x => x.Fitness);
-            }
-        }
-
-        /// <summary>
-        /// Gets the most successful individual.
-        /// </summary>
-        /// <value>
-        /// The most successful individual.
-        /// </value>
-        public Chromosome<Gene> MostSuccessfulIndividual
-        {
-            get
-            {
-                return _population.OrderByDescending(x => x.Fitness).First();
-            }
-        }
-
-        /// <summary>
-        /// Gets the least successful individual.
-        /// </summary>
-        /// <value>
-        /// The least successful individual.
-        /// </value>
-        public Chromosome<Gene> LeastSuccessfulIndividual
-        {
-            get
-            {
-                return _population.OrderByDescending(x => x.Fitness).Last();
-            }
-        }
-
-        /// <summary>
-        /// Gets the total fitness.
-        /// </summary>
-        /// <value>
-        /// The total fitness.
-        /// </value>
-        public float TotalFitness
-        {
-            get
-            {
-                return _population.Sum(x => x.Fitness);
-            }
-        }
-
-        /// <summary>
-        /// Gets the average fitness.
-        /// </summary>
-        /// <value>
-        /// The average fitness.
-        /// </value>
-        public float AverageFitness
-        {
-            get
-            {
-                return TotalFitness / _populationSize;
             }
         }
 
@@ -361,7 +290,7 @@ namespace GeneticAlgorithms
         /// <returns></returns>
         protected Chromosome<Gene> selectMaleChromosome()
         {
-            return this._maleSelector.Select(this._population, this.TotalFitness);
+            return this._maleSelector.Select(this._population);
         }
 
         /// <summary>
@@ -370,7 +299,7 @@ namespace GeneticAlgorithms
         /// <returns></returns>
         protected Chromosome<Gene> selectFemaleChromosome()
         {
-            return this._femaleSelector.Select(this._population, this.TotalFitness);
+            return this._femaleSelector.Select(this._population);
         }
 
         /// <summary>
@@ -387,6 +316,10 @@ namespace GeneticAlgorithms
         virtual public void ResetSimulation()
         {
             // Reset the population
+
+            // Merged from
+
+            _population = new Population<Gene>(this._populationSize, _defaultChromosomeLength);
             _population = new List<Chromosome<Gene>>(this._populationSize);
             _generationsCreated = 1;
 
@@ -397,6 +330,8 @@ namespace GeneticAlgorithms
                 chromosome.computeFitness(this._fitnessCalculator);
                 this._population.Add(chromosome);
             }
+
+            // Merged to
         }
 
         /// <summary>
@@ -442,9 +377,13 @@ namespace GeneticAlgorithms
                     // TODO do something
                 }
             }
+            // Merged from
 
+            this._population = new Population<Gene>(newPopulation);
             this._population = newPopulation;
             _generationsCreated = 1;
+
+            // Merged to
 
             if (SimulationTurn != null)
                 SimulationTurn(this, EventArgs.Empty);
