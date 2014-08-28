@@ -32,12 +32,21 @@ namespace GeneticAlgorithms
     public interface ISelectionProvider
     {
         /// <summary>
+        /// Selects a pair of chromosomes from a chromosome population
+        /// </summary>
+        /// <typeparam name="Chromosome">The Chromosome Type</typeparam>
+        /// <param name="population">The population.</param>
+        /// <param name="totalFitness">The total fitness.</param>
+        /// <returns>The selected chromosome</returns>
+        PairedChromosomes<Gene> SelectCouple<Gene>(Population<Gene> population) where Gene : IGene, new();
+
+        /// <summary>
         /// Selects a single chromosome from a chromosome population
         /// </summary>
         /// <typeparam name="Chromosome">The Chromosome Type</typeparam>
         /// <param name="population">The population.</param>
         /// <param name="totalFitness">The total fitness.</param>
         /// <returns>The selected chromosome</returns>
-        Chromosome<Gene> Select<Gene>(Population<Gene> population) where Gene : IGene, new();
+        Chromosome<Gene> SelectSingle<Gene>(Population<Gene> population) where Gene : IGene, new();
     }
 }

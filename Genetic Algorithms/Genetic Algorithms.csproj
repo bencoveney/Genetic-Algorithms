@@ -71,10 +71,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ExampleClasses\BoolGene.cs" />
+    <Compile Include="ExampleClasses\GenderedSelector.cs" />
     <Compile Include="ExampleClasses\Mondlandungs\MondlandungsSimulation.cs" />
     <Compile Include="ExampleClasses\Mondlandungs\Raumfahrer.cs" />
     <Compile Include="ExampleClasses\Mondlandungs\Raumschiff.cs" />
     <Compile Include="ExampleClasses\UniformMultiPointCrossoverRecombinator.cs" />
+    <Compile Include="PairedChromosomes.cs" />
     <Compile Include="Population.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

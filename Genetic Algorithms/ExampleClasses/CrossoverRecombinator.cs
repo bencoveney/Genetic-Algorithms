@@ -33,21 +33,28 @@ namespace GeneticAlgorithms.ExampleClasses
         /// <summary>
         /// See interface documentation
         /// </summary>
-        public List<Gene> Recombine<Gene>(List<Gene> maleGenes, List<Gene> femaleGenes) where Gene: IGene, new()
+        public PairedChromosomes<Gene> Recombine<Gene>(PairedChromosomes<Gene> couple) where Gene: IGene, new()
         {
             // Check the genes are the correct length
-            if (maleGenes.Count != femaleGenes.Count)
+            if (couple.Male.GeneCount != couple.Female.GeneCount)
                 throw new GenesIncompatibleException();
 
             // Caclulate the mid-point
-            int middle = maleGenes.Count / 2;
+            int middle = couple.Male.GeneCount / 2;
 
-            // Copy over the genes into a child
-            List<Gene> child = new List<Gene>();
-            maleGenes.GetRange(0, middle).ForEach(x => child.Add((Gene)x.Clone()));
-            femaleGenes.GetRange(middle, femaleGenes.Count - middle).ForEach(x => child.Add((Gene)x.Clone()));
+            // Copy over the genes into a child...
+            List<Gene> maleChild = new List<Gene>();
+            List<Gene> femaleChild = new List<Gene>();
+            // ...Before crossover point
+            couple.Male.Genes.GetRange(0, middle).ForEach(x => maleChild.Add((Gene)x.Clone()));
+            couple.Female.Genes.GetRange(0, middle).ForEach(x => femaleChild.Add((Gene)x.Clone()));
+            // ...After crossover point
+            couple.Male.Genes.GetRange(middle, couple.Female.GeneCount - middle).ForEach(x => femaleChild.Add((Gene)x.Clone()));
+            couple.Female.Genes.GetRange(middle, couple.Female.GeneCount - middle).ForEach(x => maleChild.Add((Gene)x.Clone()));
 
-            return child;
+            return new PairedChromosomes<Gene>(
+                new Chromosome<Gene>(maleChild),
+                new Chromosome<Gene>(femaleChild));
         }
     }
 }

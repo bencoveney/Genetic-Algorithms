@@ -22,57 +22,46 @@
  *  http://www.amazon.de/wishlist/1GWSB78PYVFBQ
  */
 using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace GeneticAlgorithms.ExampleClasses
 {
     /// <summary>
-    /// Selects a random chromosome from the population with their chance of selection weighted by fitness
+    /// Selects an individual from the population completely randomly
     /// </summary>
-    public class PieCakeSelector : ISelectionProvider
+    public class GenderedSelector : ISelectionProvider
     {
         /// <summary>
         /// Random number provider
         /// </summary>
-        private static Random randomizer = new Random(DateTime.Now.Millisecond);
+        static protected Random randomizer = new Random(DateTime.Now.Millisecond);
+
+        ISelectionProvider MaleSelector { get; set; }
+        ISelectionProvider FemaleSelector { get; set; }
+
+        public GenderedSelector(ISelectionProvider maleSelector, ISelectionProvider femaleSelector)
+        {
+            MaleSelector = maleSelector;
+            FemaleSelector = femaleSelector;
+        }
 
         /// <summary>
         /// See interface documentation
         /// </summary>
         public PairedChromosomes<Gene> SelectCouple<Gene>(Population<Gene> population) where Gene : IGene, new()
         {
-            // Select both individuals
-            Chromosome<Gene> male = SelectSingle(population);
-            Chromosome<Gene> female = SelectSingle(population);
+            Chromosome<Gene> male = MaleSelector.SelectSingle<Gene>(population);
+            Chromosome<Gene> female = FemaleSelector.SelectSingle<Gene>(population);
 
             return new PairedChromosomes<Gene>(male, female);
         }
-
+        
         /// <summary>
         /// See interface documentation
         /// </summary>
         public Chromosome<Gene> SelectSingle<Gene>(Population<Gene> population) where Gene : IGene, new()
         {
-            // Calculate how far round the pie to select
-            double selectionPoint = PieCakeSelector.randomizer.NextDouble() * population.TotalFitness;
-
-            int index = 0;
-            try
-            {
-                // While there is still distance round the pie to travel
-                while (selectionPoint > (population[index] as IChromosome).Fitness)
-                    // move to the next chromosome 
-                    // this is done by skipping the current one and subtracting it's fitness from the distance to travel
-                    selectionPoint -= (population[index++] as IChromosome).Fitness;
-            }
-            catch (ArgumentOutOfRangeException)
-            {
-                // Can possibly occur due to numerical effects, when last chromosome selected
-                index--;
-            }
-
-            return population[index];
+            return population[GenderedSelector.randomizer.Next(0, population.Count)];
         }
     }
 }

@@ -54,7 +54,7 @@ namespace GeneticAlgorithmsExample_BoolStrings
             WritePopulationToConsole();
 
             // Loop the simulation until an optimal value is found
-            while (geneticSimulation.MostSuccessfulIndividual.Fitness < NUMBER_OF_GENES)
+            while (geneticSimulation.CurrentPopulation.BestChromosome.Fitness < NUMBER_OF_GENES)
             {
                 // Generate the next population
                 geneticSimulation.RunSimulation();
@@ -76,10 +76,10 @@ namespace GeneticAlgorithmsExample_BoolStrings
             Console.WriteLine("Population {0}", populationCounter++);
 
             // Write some population statistics
-            Console.WriteLine("Average Fitness: {0} | Max Fitness: {1}", geneticSimulation.AverageFitness, geneticSimulation.MostSuccessfulIndividual.Fitness);
+            Console.WriteLine("Average Fitness: {0} | Max Fitness: {1}", geneticSimulation.CurrentPopulation.AverageFitness, geneticSimulation.CurrentPopulation.BestChromosome.Fitness);
 
             // Write each chromosome
-            foreach (Chromosome<BoolGene> chromosome in geneticSimulation.Population)
+            foreach (Chromosome<BoolGene> chromosome in geneticSimulation.CurrentPopulation.Chromosomes)
             {
                 // Write each gene in each chromosome
                 foreach (BoolGene gene in chromosome.Genes)

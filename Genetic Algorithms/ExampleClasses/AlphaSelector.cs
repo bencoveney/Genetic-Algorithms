@@ -35,7 +35,20 @@ namespace GeneticAlgorithms.ExampleClasses
         /// <summary>
         /// See interface documentation
         /// </summary>
-        public Chromosome<Gene> Select<Gene>(Population<Gene> population) where Gene : IGene, new()
+        public PairedChromosomes<Gene> SelectCouple<Gene>(Population<Gene> population) where Gene : IGene, new()
+        {
+            // Select males and females
+            Chromosome<Gene> male = SelectSingle<Gene>(population);
+            Chromosome<Gene> female = SelectSingle<Gene>(population);
+
+            // Return the the couple
+            return new PairedChromosomes<Gene>(male,female);
+        }
+
+        /// <summary>
+        /// See interface documentation
+        /// </summary>
+        public Chromosome<Gene> SelectSingle<Gene>(Population<Gene> population) where Gene : IGene, new()
         {
             // Return the chromosome with the highest fitness
             return population.BestChromosome;

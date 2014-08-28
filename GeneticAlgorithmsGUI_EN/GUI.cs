@@ -319,12 +319,12 @@ namespace GeneticAlgorithmsGUI_EN
                 GenSim.AbortSimulation();
                 simulationAbort = false;
             }
-            this.avgFitnessList.Add(turn, GenSim.AverageFitness);
-            this.avgLengthList.Add(turn, GenSim.AverageChromosomeLength);
-            if (zgc_Simulationsgraph.GraphPane.YAxisList[1].Scale.Max < GenSim.AverageChromosomeLength)
-                zgc_Simulationsgraph.GraphPane.YAxisList[1].Scale.Max = GenSim.AverageChromosomeLength + 1;
-            this.maxFitnessList.Add(turn, GenSim.MostSuccessfulIndividual.Fitness);
-            this.minFitnessList.Add(turn, GenSim.LeastSuccessfulIndividual.Fitness);
+            this.avgFitnessList.Add(turn, GenSim.CurrentPopulation.AverageFitness);
+            this.avgLengthList.Add(turn, GenSim.CurrentPopulation.AverageChromosomeLength);
+            if (zgc_Simulationsgraph.GraphPane.YAxisList[1].Scale.Max < GenSim.CurrentPopulation.AverageFitness)
+                zgc_Simulationsgraph.GraphPane.YAxisList[1].Scale.Max = GenSim.CurrentPopulation.AverageChromosomeLength + 1;
+            this.maxFitnessList.Add(turn, GenSim.CurrentPopulation.BestChromosome.Fitness);
+            this.minFitnessList.Add(turn, GenSim.CurrentPopulation.WorstChromosome.Fitness);
             if (turn % 10 == 0 && chk_Live.Checked)
             {
                 zgc_Simulationsgraph.AxisChange();

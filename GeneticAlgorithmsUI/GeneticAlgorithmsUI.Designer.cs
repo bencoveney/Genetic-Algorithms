@@ -29,8 +29,8 @@ namespace GeneticAlgorithmsUI
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             this.configurationPanel = new System.Windows.Forms.Panel();
             this.simulationControlsGroup = new System.Windows.Forms.GroupBox();
             this.numberOfGenerationsLabel = new System.Windows.Forms.Label();
@@ -104,7 +104,7 @@ namespace GeneticAlgorithmsUI
             this.numberOfGenerationsNumericUpDown.Size = new System.Drawing.Size(59, 22);
             this.numberOfGenerationsNumericUpDown.TabIndex = 2;
             this.numberOfGenerationsNumericUpDown.Value = new decimal(new int[] {
-            1,
+            10,
             0,
             0,
             0});
@@ -190,12 +190,12 @@ namespace GeneticAlgorithmsUI
             // 
             // fitnessGraph
             // 
-            chartArea2.Name = "Fitness Chart Area";
-            this.fitnessGraph.ChartAreas.Add(chartArea2);
+            chartArea1.Name = "Fitness Chart Area";
+            this.fitnessGraph.ChartAreas.Add(chartArea1);
             this.fitnessGraph.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend2.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom;
-            legend2.Name = "Fitness Lines";
-            this.fitnessGraph.Legends.Add(legend2);
+            legend1.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom;
+            legend1.Name = "Fitness Lines";
+            this.fitnessGraph.Legends.Add(legend1);
             this.fitnessGraph.Location = new System.Drawing.Point(0, 0);
             this.fitnessGraph.Name = "fitnessGraph";
             this.fitnessGraph.Size = new System.Drawing.Size(566, 507);

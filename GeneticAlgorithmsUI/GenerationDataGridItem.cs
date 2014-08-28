@@ -9,8 +9,8 @@ namespace GeneticAlgorithmsUI
     class GenerationDataGridItem
     {
         public string GenerationName { get; set; }
-        public float AverageFitness { get; set; }
-        public float MaximumFitness { get; set; }
+        public double AverageFitness { get; set; }
+        public double MaximumFitness { get; set; }
         public string MostSuccessfulChromosome { get; set; }
         public string LeastSuccessfulChromosome { get; set; }
     }

@@ -46,6 +46,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GenerationDataGridItem.cs" />
+    <Compile Include="GeneticAlgorithmsSettingsDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GeneticAlgorithmsSettingsDialog.Designer.cs">
+      <DependentUpon>GeneticAlgorithmsSettingsDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="GeneticAlgorithmsUI.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -54,6 +60,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="GeneticAlgorithmsSettingsDialog.resx">
+      <DependentUpon>GeneticAlgorithmsSettingsDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GeneticAlgorithmsUI.resx">
       <DependentUpon>GeneticAlgorithmsUI.cs</DependentUpon>
     </EmbeddedResource>

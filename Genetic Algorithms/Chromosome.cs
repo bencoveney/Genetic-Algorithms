@@ -25,6 +25,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 
 namespace GeneticAlgorithms
 {
@@ -63,7 +64,7 @@ namespace GeneticAlgorithms
         /// </summary>
         /// <param name="genes">The genes.</param>
         /// <exception cref="System.ArrayTypeMismatchException"></exception>
-        protected Chromosome(List<Gene> genes)
+        public Chromosome(List<Gene> genes)
         {
             // If no genes were passed all we need to do is initialise the local variable 
             if (genes.Count <= 0)
@@ -184,17 +185,6 @@ namespace GeneticAlgorithms
         }
 
         /// <summary>
-        /// Recombines this chromosome with a specified partner chromosome
-        /// </summary>
-        /// <param name="partner">The partner chromosome to combine with</param>
-        /// <param name="recombinator">The recombination provider.</param>
-        /// <returns>The chromosome resulting from the re-combination</returns>
-        public Chromosome<Gene> Recombine(Chromosome<Gene> partner, IRecombinationProvider recombinator)
-        {
-            return new Chromosome<Gene>(recombinator.Recombine(_genes, partner._genes));
-        }
-
-        /// <summary>
         /// Returns a <see cref="System.String" /> that represents this instance.
         /// </summary>
         /// <returns>
@@ -202,12 +192,11 @@ namespace GeneticAlgorithms
         /// </returns>
         override public string ToString()
         {
-            string resultString = "";
-            foreach (Gene gene in _genes)
-            {
-                resultString += gene.ToString() + " ";
-            }
-            return resultString;
+            // Build a string by combining each gene
+            StringBuilder result = new StringBuilder();
+            Genes.ForEach(x => result.Append(x.ToString()));
+
+            return result.ToString();
         }
     }
 }

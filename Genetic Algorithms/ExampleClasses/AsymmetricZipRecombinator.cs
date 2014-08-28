@@ -34,31 +34,41 @@ namespace GeneticAlgorithms.ExampleClasses
         /// <summary>
         /// See interface documentation
         /// </summary>
-        public List<Gene> Recombine<Gene>(List<Gene> maleGenes, List<Gene> femaleGenes) where Gene: IGene, new()
+        public PairedChromosomes<Gene> Recombine<Gene>(PairedChromosomes<Gene> couple) where Gene : IGene, new()
         {
             // Calculate which parent has a longer gene
-            List<Gene> longerGene = maleGenes.Count >= femaleGenes.Count ? maleGenes : femaleGenes;
-            List<Gene> shorterGene = maleGenes.Count < femaleGenes.Count ? maleGenes : femaleGenes;
+            List<Gene> longerGene = couple.Male.Genes.Count >= couple.Female.Genes.Count ? couple.Male.Genes : couple.Female.Genes;
+            List<Gene> shorterGene = couple.Male.Genes.Count < couple.Female.Genes.Count ? couple.Male.Genes : couple.Female.Genes;
 
-            // for each parent gene add a gene to the child
-            List<Gene> child = new List<Gene>();
+            // for each parent gene add a gene to the children
+            List<Gene> maleChild = new List<Gene>();
+            List<Gene> femaleChild = new List<Gene>();
             for (int i = 0; i < longerGene.Count; i++)
             {
-                // If the iterator is even or we're out of short genes
-                if(i % 2== 0 || i >= shorterGene.Count)
+                if (i < shorterGene.Count)
                 {
-                    // take a gene from the longer one
-                    child.Add((Gene)longerGene[i].Clone());
+                    // alternate which child takes from which parent
+                    if (i % 2 == 0 || i >= shorterGene.Count)
+                    {
+                        maleChild.Add((Gene)longerGene[i].Clone());
+                        femaleChild.Add((Gene)shorterGene[i].Clone());
+                    } 
+                    else
+                    {
+                        femaleChild.Add((Gene)longerGene[i].Clone());
+                        maleChild.Add((Gene)shorterGene[i].Clone());
+                    }
                 }
-                // If odd and there are still genes to take from 
                 else
                 {
-                    // take a gene from the shorter one
-                    child.Add((Gene)shorterGene[i].Clone());
+                    // If theres nothing left on the shorter gene then only take from the longer one
+                    maleChild.Add(longerGene[i]);
                 }
             }
 
-            return child;
+            return new PairedChromosomes<Gene>(
+                new Chromosome<Gene>(maleChild),
+                new Chromosome<Gene>(femaleChild));
         }
     }
 }

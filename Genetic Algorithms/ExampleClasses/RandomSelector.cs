@@ -39,8 +39,21 @@ namespace GeneticAlgorithms.ExampleClasses
         /// <summary>
         /// See interface documentation
         /// </summary>
-        public Chromosome<Gene> Select<Gene>(Population<Gene> population) where Gene : IGene, new()
+        public PairedChromosomes<Gene> SelectCouple<Gene>(Population<Gene> population) where Gene : IGene, new()
         {
+            // Select a couple randomly
+            Chromosome<Gene> male = SelectSingle<Gene>(population);
+            Chromosome<Gene> female = SelectSingle<Gene>(population);
+
+            return new PairedChromosomes<Gene>(male, female);
+        }
+
+        /// <summary>
+        /// See interface documentation
+        /// </summary>
+        public Chromosome<Gene> SelectSingle<Gene>(Population<Gene> population) where Gene : IGene, new()
+        {
+            // Selects an individual at random
             return population[RandomSelector.randomizer.Next(0, population.Count)];
         }
     }

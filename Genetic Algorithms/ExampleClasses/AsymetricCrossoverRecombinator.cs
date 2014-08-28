@@ -41,25 +41,39 @@ namespace GeneticAlgorithms.ExampleClasses
         /// <summary>
         /// See interface documentation
         /// </summary>
-        public List<Gene> Recombine<Gene>(List<Gene> maleGenes, List<Gene> femaleGenes) where Gene : IGene, new()
+        public PairedChromosomes<Gene> Recombine<Gene>(PairedChromosomes<Gene> couple) where Gene : IGene, new()
         {
             // Calculate which parent has a longer gene
-            List<Gene> longerGene = maleGenes.Count >= femaleGenes.Count ? maleGenes : femaleGenes;
-            List<Gene> shorterGene = maleGenes.Count < femaleGenes.Count ? maleGenes : femaleGenes;
+            List<Gene> longerGene = couple.Male.Genes.Count >= couple.Female.Genes.Count ? couple.Male.Genes : couple.Female.Genes;
+            List<Gene> shorterGene = couple.Male.Genes.Count < couple.Female.Genes.Count ? couple.Male.Genes : couple.Female.Genes;
 
             // Find a random crossover point
             int crossoverPoint = random.Next(shorterGene.Count);
 
-            // Build the child's genetic data
-            List<Gene> child = new List<Gene>();
+            // Build the children's genetic data
+            List<Gene> maleChild = new List<Gene>();
+            List<Gene> femaleChild = new List<Gene>();
             for(int i = 0; i < longerGene.Count; i++)
             {
-                // If before the crossover take from the shorter gene, otherwise take from the longer one
-                Gene gene = i <= crossoverPoint ? shorterGene[i] : longerGene[i];
-                child.Add(gene);
+                if (i < shorterGene.Count)
+                {
+                    // Take from both while possible
+                    Gene maleGene = i < crossoverPoint ? shorterGene[i] : longerGene[i];
+                    maleChild.Add(maleGene);
+                    Gene femaleGene = i < crossoverPoint ? longerGene[i] : shorterGene[i];
+                    femaleChild.Add(femaleGene);
+                }
+                else
+                {
+                    // If we're out of short genes take from the longer one
+                    maleChild.Add(longerGene[i]);
+                }
             }
             
-            return child;
+            // Return the children
+            return new PairedChromosomes<Gene>(
+                new Chromosome<Gene>(maleChild),
+                new Chromosome<Gene>(femaleChild));
         }
     }
 }

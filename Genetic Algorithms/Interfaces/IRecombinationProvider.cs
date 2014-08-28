@@ -39,7 +39,7 @@ namespace GeneticAlgorithms
         /// <param name="maleGenes">The father's genetic data</param>
         /// <param name="femaleGenes">The mother's genetic data</param>
         /// <returns>A child's genetic data</returns>
-        List<Gene> Recombine<Gene>(List<Gene> maleGenes, List<Gene> femaleGenes) where Gene: IGene, new();
+        PairedChromosomes<Gene> Recombine<Gene>(PairedChromosomes<Gene> couple) where Gene : IGene, new();
     }
 
     /// <summary>

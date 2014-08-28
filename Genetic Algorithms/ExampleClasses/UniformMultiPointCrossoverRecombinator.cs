@@ -17,23 +17,30 @@ namespace GeneticAlgorithms.ExampleClasses
         /// <summary>
         /// See interface documentation
         /// </summary>
-        public List<Gene> Recombine<Gene>(List<Gene> maleGenes, List<Gene> femaleGenes) where Gene: IGene, new()
+        public PairedChromosomes<Gene> Recombine<Gene>(PairedChromosomes<Gene> couple) where Gene: IGene, new()
         {
-            // Copy the male genes to the child
-            List<Gene> Child = new List<Gene>(maleGenes);
+            // Copy the genes to the children
+            List<Gene> maleChild = new List<Gene>(couple.Male.Genes);
+            List<Gene> femaleChild = new List<Gene>(couple.Male.Genes);
 
-            // For each gene copy from the female gene if necessary
-            bool usingMale = false;
-            for (int i = 0; i < maleGenes.Count; i++)
+            // Calculate the length of the shortest gene
+            int shorterGene = Math.Min(maleChild.Count, femaleChild.Count);
+
+            // For each gene copy across if necessary
+            bool crossoverGenes = false;
+            for (int i = 0; i < shorterGene; i++)
             {
                 // If we're on the boundary which gene to take from
-                if (i % GenesPerCrossover == 0) usingMale = !usingMale;
+                if (i % GenesPerCrossover == 0) crossoverGenes = !crossoverGenes;
 
-                // Take from the female
-                if(!usingMale) Child[i] = (Gene)femaleGenes[i].Clone();
+                // Take from the other chromosome
+                if (!crossoverGenes) maleChild[i] = (Gene)couple.Female.Genes[i].Clone();
+                if (!crossoverGenes) femaleChild[i] = (Gene)couple.Male.Genes[i].Clone();
             }
 
-            return Child;
+            return new PairedChromosomes<Gene>(
+                new Chromosome<Gene>(maleChild),
+                new Chromosome<Gene>(femaleChild));
         }
     }
 }
